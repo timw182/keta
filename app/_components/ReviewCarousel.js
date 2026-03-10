@@ -60,6 +60,7 @@ export default function ReviewCarousel() {
   const timerRef = useRef(null)
   const { lang } = useLang()
   const tx = t[lang].reviews
+  const footer = t[lang].footer
 
   const next = () => setCurrent(c => (c + 1) % reviews.length)
   const prev = () => setCurrent(c => (c - 1 + reviews.length) % reviews.length)
@@ -79,10 +80,10 @@ export default function ReviewCarousel() {
       {/* Subtle inner border */}
       <div className="absolute top-2 left-3 right-3 md:left-[30px] md:right-[30px] bottom-2 border border-gold/20 pointer-events-none" />
 
-      <div className="relative px-5 md:px-[80px] py-14 md:py-16 flex flex-col items-center">
+      <div className="relative px-5 md:px-[80px] py-7 md:py-8 flex flex-col items-center">
 
         {/* Google badge */}
-        <div className="flex items-center gap-2.5 mb-8 opacity-60">
+        <div className="flex items-center gap-2.5 mb-4 opacity-60">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
             <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#b8946a" opacity=".7"/>
             <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#b8946a" opacity=".5"/>
@@ -93,7 +94,7 @@ export default function ReviewCarousel() {
         </div>
 
         {/* Review card */}
-        <div className="w-full max-w-[640px] text-center min-h-[140px] flex flex-col items-center justify-center">
+        <div className="w-full max-w-[640px] text-center min-h-[70px] flex flex-col items-center justify-center">
           {reviews.map((r, i) => (
             <div
               key={i}
@@ -104,10 +105,10 @@ export default function ReviewCarousel() {
                 pointerEvents: i === current ? 'auto' : 'none',
               }}
             >
-              <div className="flex justify-center mb-4">
+              <div className="flex justify-center mb-2">
                 <Stars count={r.rating} />
               </div>
-              <p className="font-[var(--font-cormorant)] text-[18px] md:text-[22px] italic font-light text-champagne/90 leading-[1.65] mb-6 px-2 md:px-0">
+              <p className="font-[var(--font-cormorant)] text-[15px] md:text-[17px] italic font-light text-champagne/90 leading-[1.65] mb-3 px-2 md:px-0">
                 &ldquo;{r.text}&rdquo;
               </p>
               <div className="flex items-center justify-center gap-3">
@@ -124,7 +125,7 @@ export default function ReviewCarousel() {
         </div>
 
         {/* Spacer to keep section height stable */}
-        <div className="h-[140px] md:h-[160px]" />
+        <div className="h-[70px] md:h-[80px]" />
 
         {/* Controls */}
         <div className="flex items-center gap-6 mt-4">
@@ -169,6 +170,38 @@ export default function ReviewCarousel() {
             </svg>
           </button>
         </div>
+      </div>
+
+      {/* Footer bar */}
+      <div className="relative px-5 py-6 md:px-[80px] md:py-7 flex flex-col gap-3 md:flex-row md:items-center md:justify-between border-t border-gold/15">
+        <span className="font-[var(--font-cinzel)] text-[10px] tracking-[0.3em] text-champagne/40 uppercase">
+          © {new Date().getFullYear()} KT Equestrian
+        </span>
+
+        {/* Social links */}
+        <div className="flex items-center gap-5">
+          <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-champagne/30 hover:text-gold transition-colors duration-200" aria-label="Facebook">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+            </svg>
+          </a>
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-champagne/30 hover:text-gold transition-colors duration-200" aria-label="Instagram">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+            </svg>
+          </a>
+          <a href="https://x.com" target="_blank" rel="noopener noreferrer" className="text-champagne/30 hover:text-gold transition-colors duration-200" aria-label="X">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </a>
+        </div>
+
+        <span className="font-[var(--font-jost)] text-[10px] tracking-[0.15em] text-champagne/30 uppercase">
+          {footer.sub}
+        </span>
       </div>
     </section>
   )

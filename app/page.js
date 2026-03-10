@@ -93,16 +93,6 @@ export default function Home() {
 
       <ServiceCards />
       <ReviewCarousel />
-
-      {/* ── FOOTER ── */}
-      <footer className="bg-text-dark px-5 py-8 md:px-[80px] md:py-10 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-        <span className="font-[var(--font-cinzel)] text-[10px] tracking-[0.3em] text-champagne/40 uppercase">
-          © {new Date().getFullYear()} KT Equestrian
-        </span>
-        <span className="font-[var(--font-jost)] text-[10px] tracking-[0.15em] text-champagne/30 uppercase">
-          {tx.footer.sub}
-        </span>
-      </footer>
     </main>
   )
 }

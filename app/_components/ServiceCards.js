@@ -26,7 +26,7 @@ export default function ServiceCards() {
       {/* Section header */}
       <div className="flex items-center gap-5 mb-10 md:mb-14">
         <span className="w-[30px] md:w-[40px] h-px bg-gold/60" />
-        <span className="font-[var(--font-cinzel)] text-[9px] md:text-[10px] tracking-[0.5em] text-gold uppercase">
+        <span className="font-[var(--font-cinzel)] font-bold text-[16px] md:text-[20px] tracking-[0.5em] text-gold uppercase">
           {tx.label}
         </span>
       </div>
@@ -134,7 +134,6 @@ export default function ServiceCards() {
                     fill
                     className="object-cover contrast-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-l from-transparent to-burgundy/60" />
                 </div>
               </div>
             </div>
@@ -156,7 +155,6 @@ export default function ServiceCards() {
                   fill
                   className="object-cover contrast-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-champagne" />
               </div>
               {/* Content */}
               <div className="border-l border-gold/25 pl-4 pt-4">
