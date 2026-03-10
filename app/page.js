@@ -4,6 +4,8 @@ import Image from 'next/image'
 import ServiceCards from './_components/ServiceCards'
 import ReviewCarousel from './_components/ReviewCarousel'
 import Navbar from './_components/Navbar'
+import InstagramMosaic from './_components/InstagramMosaic'
+import ContactSection from './_components/ContactSection'
 import { useLang } from './_components/LanguageProvider'
 import { t } from '../lib/translations'
 
@@ -61,14 +63,8 @@ export default function Home() {
 
       {/* ── ABOUT ── */}
       <section id="about" className="relative bg-champagne px-5 py-14 md:px-[80px] md:py-[90px] grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-[80px] items-center overflow-hidden before:content-[''] before:absolute before:top-0 before:left-5 before:right-5 md:before:left-[80px] md:before:right-[80px] before:h-px before:bg-gradient-to-r before:from-transparent before:via-gold before:to-transparent" style={{ zIndex: 1, boxShadow: '0 -24px 60px 0 rgba(247,242,232,0.18), 0 -2px 0 0 rgba(184,148,106,0.15)' }}>
-        {/* Image */}
-        <div className="relative">
-          <Image src="/images/kelly-with-horse.jpg" alt="Kelly with her horse" width={600} height={480} className="w-full h-[280px] md:h-[480px] object-cover sepia-[5%] contrast-105" />
-          <div className="absolute inset-[-12px_-12px_12px_12px] border border-burgundy/20 pointer-events-none -z-10" />
-          <div className="absolute top-5 -right-5 bg-burgundy text-champagne font-[var(--font-cinzel)] text-[8px] tracking-[0.4em] uppercase px-[18px] py-2.5 [writing-mode:vertical-rl]">
-            {tx.about.established}
-          </div>
-        </div>
+        {/* Instagram mosaic */}
+        <InstagramMosaic />
 
         {/* Text */}
         <div className="pl-0 md:pl-5">
@@ -92,6 +88,7 @@ export default function Home() {
       </section>
 
       <ServiceCards />
+      <ContactSection />
       <ReviewCarousel />
     </main>
   )

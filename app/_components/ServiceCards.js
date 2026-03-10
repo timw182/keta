@@ -22,13 +22,22 @@ export default function ServiceCards() {
   const cards = tx.cards.map((c, i) => ({ ...c, img: imgs[i] }))
 
   return (
-    <section className="relative bg-champagne px-5 md:px-[80px] pb-16 md:pb-[100px] pt-0">
+    <section className="relative bg-champagne px-5 md:px-[80px] pb-16 md:pb-[100px] pt-10 md:pt-14 before:content-[''] before:absolute before:top-0 before:left-5 before:right-5 md:before:left-[80px] md:before:right-[80px] before:h-px before:bg-gradient-to-r before:from-transparent before:via-gold/60 before:to-transparent">
       {/* Section header */}
-      <div className="flex items-center gap-5 mb-10 md:mb-14">
-        <span className="w-[30px] md:w-[40px] h-px bg-gold/60" />
-        <span className="font-[var(--font-cinzel)] font-bold text-[16px] md:text-[20px] tracking-[0.5em] text-gold uppercase">
+      <div className="mb-10 md:mb-14">
+        <div className="flex items-center gap-3.5 font-[var(--font-cinzel)] text-[10px] tracking-[0.5em] text-gold uppercase mb-5
+          before:content-[''] before:w-[30px] before:h-px before:bg-gold">
           {tx.label}
-        </span>
+        </div>
+        <h2
+          className="font-[var(--font-cinzel)] font-semibold text-burgundy uppercase tracking-[0.1em] leading-[1.15]"
+          style={{ fontSize: 'clamp(26px, 3.2vw, 44px)' }}
+        >
+          {tx.title1}
+          <em className="block font-[var(--font-cormorant)] italic font-light text-[1.2em] text-burgundy tracking-[0.06em]">
+            {tx.title2}
+          </em>
+        </h2>
       </div>
 
       {/* ── Desktop: sliding overlay cards ── */}
@@ -66,10 +75,11 @@ export default function ServiceCards() {
                 <a
                   href="#contact"
                   onClick={e => e.stopPropagation()}
-                  className="inline-flex items-center gap-3 font-[var(--font-cinzel)] text-[8px] tracking-[0.4em] text-burgundy uppercase border border-gold/50 px-5 py-2.5 self-start transition-all duration-300 hover:bg-gold/10 hover:border-gold"
+                  className="relative inline-flex items-center gap-3 font-[var(--font-cinzel)] text-[8px] tracking-[0.4em] text-burgundy uppercase border border-gold/50 px-5 py-2.5 self-start overflow-hidden group/btn transition-colors duration-300 hover:text-champagne hover:border-gold"
                 >
-                  {card.btn}
-                  <span className="w-[14px] h-px bg-current" />
+                  <span className="absolute inset-0 bg-burgundy translate-x-[-101%] group-hover/btn:translate-x-0 transition-transform duration-300 ease-in-out" />
+                  <span className="relative">{card.btn}</span>
+                  <span className="relative w-[14px] h-px bg-current" />
                 </a>
               </div>
 

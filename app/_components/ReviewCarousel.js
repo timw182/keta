@@ -94,11 +94,11 @@ export default function ReviewCarousel() {
         </div>
 
         {/* Review card */}
-        <div className="w-full max-w-[640px] text-center min-h-[70px] flex flex-col items-center justify-center">
+        <div className="relative w-full max-w-[640px] text-center h-[190px] md:h-[150px]">
           {reviews.map((r, i) => (
             <div
               key={i}
-              className="absolute transition-all duration-500"
+              className="absolute inset-x-0 top-0 transition-all duration-500 px-2 md:px-0"
               style={{
                 opacity: i === current ? 1 : 0,
                 transform: `translateY(${i === current ? '0px' : '12px'})`,
@@ -108,7 +108,7 @@ export default function ReviewCarousel() {
               <div className="flex justify-center mb-2">
                 <Stars count={r.rating} />
               </div>
-              <p className="font-[var(--font-cormorant)] text-[15px] md:text-[17px] italic font-light text-champagne/90 leading-[1.65] mb-3 px-2 md:px-0">
+              <p className="font-[var(--font-cormorant)] text-[15px] md:text-[17px] italic font-light text-champagne/90 leading-[1.65] mb-3">
                 &ldquo;{r.text}&rdquo;
               </p>
               <div className="flex items-center justify-center gap-3">
@@ -123,9 +123,6 @@ export default function ReviewCarousel() {
             </div>
           ))}
         </div>
-
-        {/* Spacer to keep section height stable */}
-        <div className="h-[70px] md:h-[80px]" />
 
         {/* Controls */}
         <div className="flex items-center gap-6 mt-4">
@@ -173,13 +170,13 @@ export default function ReviewCarousel() {
       </div>
 
       {/* Footer bar */}
-      <div className="relative px-5 py-6 md:px-[80px] md:py-7 flex flex-col gap-3 md:flex-row md:items-center md:justify-between border-t border-gold/15">
+      <div className="relative px-5 py-6 md:px-[80px] md:py-7 flex flex-col items-center gap-3 md:flex-row md:items-center md:justify-between border-t border-gold/15">
         <span className="font-[var(--font-cinzel)] text-[10px] tracking-[0.3em] text-champagne/40 uppercase">
           © {new Date().getFullYear()} KT Equestrian
         </span>
 
-        {/* Social links */}
-        <div className="flex items-center gap-5">
+        {/* Social links — centered absolutely on desktop */}
+        <div className="flex items-center gap-5 md:absolute md:left-1/2 md:-translate-x-1/2">
           <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-champagne/30 hover:text-gold transition-colors duration-200" aria-label="Facebook">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
               <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
