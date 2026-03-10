@@ -25,7 +25,7 @@ export default function AboutBio() {
           <button
             key={l.key}
             onClick={() => setLang(l.key)}
-            className="font-[var(--font-cinzel)] text-[8px] tracking-[0.3em] uppercase px-2.5 py-1 transition-all duration-200 cursor-pointer"
+            className="font-[var(--font-cinzel)] text-[9px] tracking-[0.3em] uppercase px-2.5 py-1 transition-all duration-200 cursor-pointer"
             style={{
               color: lang === l.key ? 'var(--color-burgundy)' : 'rgba(107,20,40,0.35)',
               borderBottom: lang === l.key ? '1px solid var(--color-gold)' : '1px solid transparent',
@@ -35,13 +35,13 @@ export default function AboutBio() {
           </button>
         ))}
         <span className="ml-1 w-px h-3 bg-gold/30" />
-        <span className="font-[var(--font-jost)] text-[9px] tracking-[0.15em] text-burgundy/30 ml-2 uppercase">language</span>
+        <span className="font-[var(--font-jost)] text-[10px] tracking-[0.15em] text-burgundy/30 ml-2 uppercase">language</span>
       </div>
 
       {/* Bio text */}
       <p
         key={lang}
-        className="font-[var(--font-jost)] font-light text-[14px] leading-[1.9] text-burgundy/70 max-w-[400px] animate-fade-in"
+        className="font-[var(--font-jost)] font-light text-[15px] leading-[1.9] text-burgundy/70 max-w-[400px] animate-fade-in"
       >
         {bio[lang]}
       </p>

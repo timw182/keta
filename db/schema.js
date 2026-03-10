@@ -11,12 +11,16 @@ export const clients = sqliteTable('clients', {
 export const bookings = sqliteTable('bookings', {
   id: integer('id').primaryKey({ autoIncrement: true }),
   clientId: integer('client_id').references(() => clients.id),
-  type: text('type').notNull(), // 'lesson' | 'course' | 'training'
+  name: text('name').notNull(),
+  email: text('email').notNull(),
+  phone: text('phone'),
+  type: text('type').notNull(), // 'lesson' | 'course'
   date: text('date').notNull(),
   startTime: text('start_time').notNull(),
   endTime: text('end_time').notNull(),
   status: text('status').default('pending'), // 'pending' | 'confirmed' | 'cancelled'
   notes: text('notes'),
+  createdAt: text('created_at').default(new Date().toISOString()),
 })
 
 export const invoices = sqliteTable('invoices', {

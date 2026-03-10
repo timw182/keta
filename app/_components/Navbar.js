@@ -54,9 +54,9 @@ export default function Navbar() {
         {/* Left: logo + language toggle (mobile) */}
         <div className="flex flex-col gap-1.5 md:flex-row md:items-center md:gap-3 opacity-0 animate-fade-down" style={{ animationDelay: '0.3s' }}>
           <Link href="/" className="flex items-center gap-3">
-            <Image src="/images/kt_logo.png" alt="KT Equestrian" width={28} height={28} className="brightness-0 invert" />
+            <Image src="/picture-repo/logo/logo-svg.svg" alt="KT Equestrian" width={32} height={32} className="brightness-0 invert" />
             <div className="w-4 h-px bg-gold" />
-            <span className="font-[var(--font-cinzel)] text-[11px] md:text-[12px] tracking-[0.35em] text-champagne uppercase">
+            <span className="font-[var(--font-cinzel)] text-[12px] md:text-[14px] tracking-[0.35em] text-champagne uppercase">
               KT Equestrian
             </span>
           </Link>
@@ -66,7 +66,7 @@ export default function Navbar() {
               <button
                 key={l}
                 onClick={() => setLang(l)}
-                className="font-[var(--font-cinzel)] text-[7px] tracking-[0.25em] uppercase px-2 py-0.5 cursor-pointer transition-all duration-200"
+                className="font-[var(--font-cinzel)] text-[8px] tracking-[0.25em] uppercase px-2 py-0.5 cursor-pointer transition-all duration-200"
                 style={{
                   color: lang === l ? '#d4aa7d' : 'rgba(247,242,232,0.3)',
                   borderBottom: lang === l ? '1px solid rgba(184,148,106,0.6)' : '1px solid transparent',
@@ -87,7 +87,7 @@ export default function Navbar() {
               <button
                 key={l}
                 onClick={() => setLang(l)}
-                className="font-[var(--font-cinzel)] text-[8px] tracking-[0.25em] uppercase px-2 py-1 cursor-pointer transition-all duration-200"
+                className="font-[var(--font-cinzel)] text-[9px] tracking-[0.25em] uppercase px-2 py-1 cursor-pointer transition-all duration-200"
                 style={{
                   color: lang === l ? '#d4aa7d' : 'rgba(247,242,232,0.35)',
                   borderBottom: lang === l ? '1px solid rgba(184,148,106,0.7)' : '1px solid transparent',
@@ -100,7 +100,7 @@ export default function Navbar() {
 
           <a
             href="#contact"
-            className="hidden md:inline-block font-[var(--font-cinzel)] text-[10px] tracking-[0.3em] text-champagne uppercase border border-gold/50 px-5 py-2 transition-all duration-300 hover:bg-gold/15 hover:border-gold hover:text-gold"
+            className="hidden md:inline-block font-[var(--font-cinzel)] text-[11px] tracking-[0.3em] text-champagne uppercase border border-gold/50 px-5 py-2 transition-all duration-300 hover:bg-gold/15 hover:border-gold hover:text-gold"
           >
             {tx.contact}
           </a>
@@ -156,8 +156,8 @@ export default function Navbar() {
         {/* Top: logo */}
         <div className="px-8 pt-10 pb-6 border-b border-gold/10">
           <div className="flex items-center gap-3">
-            <Image src="/images/kt_logo.png" alt="KT Equestrian" width={22} height={22} className="brightness-0 invert opacity-60" />
-            <span className="font-[var(--font-cinzel)] text-[10px] tracking-[0.35em] text-champagne/50 uppercase">KT Equestrian</span>
+            <Image src="/picture-repo/logo/logo-svg.svg" alt="KT Equestrian" width={24} height={24} className="brightness-0 invert opacity-60" />
+            <span className="font-[var(--font-cinzel)] text-[11px] tracking-[0.35em] text-champagne/50 uppercase">KT Equestrian</span>
           </div>
         </div>
 
@@ -166,6 +166,7 @@ export default function Navbar() {
           {[
             { href: '/', label: 'Home' },
             { href: '/about', label: aboutLabel },
+            { href: '/booking', label: t[lang].contact.bookingNavLabel },
             { href: '/contact', label: t[lang].contact.navLabel },
           ].map((item, i) => (
             <Link
@@ -176,7 +177,7 @@ export default function Navbar() {
               style={{ transitionDelay: menuOpen ? `${i * 0.06}s` : '0s' }}
             >
               <span className="w-0 group-hover:w-4 h-px bg-gold transition-all duration-300" />
-              <span className="font-[var(--font-cinzel)] text-[13px] tracking-[0.35em] text-champagne/70 uppercase group-hover:text-gold transition-colors duration-200">
+              <span className="font-[var(--font-cinzel)] text-[14px] tracking-[0.35em] text-champagne/70 uppercase group-hover:text-gold transition-colors duration-200">
                 {item.label}
               </span>
             </Link>
@@ -185,13 +186,13 @@ export default function Navbar() {
 
         {/* Bottom: language toggle */}
         <div className="px-8 py-8 border-t border-gold/10">
-          <p className="font-[var(--font-cinzel)] text-[7px] tracking-[0.5em] text-champagne/25 uppercase mb-3">Language</p>
+          <p className="font-[var(--font-cinzel)] text-[8px] tracking-[0.5em] text-champagne/25 uppercase mb-3">Language</p>
           <div className="flex items-center gap-1">
             {LANGS.map(l => (
               <button
                 key={l}
                 onClick={() => setLang(l)}
-                className="font-[var(--font-cinzel)] text-[9px] tracking-[0.3em] uppercase px-3 py-1.5 cursor-pointer transition-all duration-200 border"
+                className="font-[var(--font-cinzel)] text-[10px] tracking-[0.3em] uppercase px-3 py-1.5 cursor-pointer transition-all duration-200 border"
                 style={{
                   color: lang === l ? '#d4aa7d' : 'rgba(247,242,232,0.3)',
                   borderColor: lang === l ? 'rgba(184,148,106,0.5)' : 'transparent',

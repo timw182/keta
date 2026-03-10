@@ -50,3 +50,64 @@ body {
 .animate-fade-up    { animation: fadeUp    1s ease forwards; }
 .animate-fade-in    { animation: fadeIn    1s ease forwards; }
 .animate-scroll-pulse { animation: scrollPulse 2s ease infinite; }
+
+/* Bubble float animations — each traces a unique organic path */
+@keyframes float1 {
+  0%   { transform: translate(0px,   0px);  }
+  20%  { transform: translate(22px, -18px); }
+  45%  { transform: translate(10px, -38px); }
+  70%  { transform: translate(-18px,-22px); }
+  100% { transform: translate(0px,   0px);  }
+}
+@keyframes float2 {
+  0%   { transform: translate(0px,   0px);  }
+  25%  { transform: translate(-28px,-12px); }
+  50%  { transform: translate(-14px,-40px); }
+  75%  { transform: translate(20px,  -20px);}
+  100% { transform: translate(0px,   0px);  }
+}
+@keyframes float3 {
+  0%   { transform: translate(0px,   0px);  }
+  30%  { transform: translate(16px,  -30px);}
+  60%  { transform: translate(-10px, -50px);}
+  80%  { transform: translate(-24px, -20px);}
+  100% { transform: translate(0px,   0px);  }
+}
+@keyframes float4 {
+  0%   { transform: translate(0px,   0px);  }
+  33%  { transform: translate(-20px, -28px);}
+  66%  { transform: translate(24px,  -42px);}
+  100% { transform: translate(0px,   0px);  }
+}
+@keyframes float5 {
+  0%   { transform: translate(0px,   0px);  }
+  20%  { transform: translate(12px,  -22px);}
+  50%  { transform: translate(30px,  -10px);}
+  75%  { transform: translate(8px,   -36px);}
+  100% { transform: translate(0px,   0px);  }
+}
+@keyframes float6 {
+  0%   { transform: translate(0px,   0px);  }
+  25%  { transform: translate(-14px, -32px);}
+  55%  { transform: translate(18px,  -48px);}
+  80%  { transform: translate(10px,  -18px);}
+  100% { transform: translate(0px,   0px);  }
+}
+
+/* Button gold shimmer sweep */
+.btn-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.btn-shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(212,170,125,0.30) 50%, transparent 60%);
+  transform: translateX(-100%);
+  transition: transform 0s;
+}
+.btn-shimmer:hover::after {
+  transform: translateX(200%);
+  transition: transform 0.55s ease;
+}

@@ -90,7 +90,7 @@ export default function ReviewCarousel() {
             <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#b8946a" opacity=".4"/>
             <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#b8946a" opacity=".6"/>
           </svg>
-          <span className="font-[var(--font-cinzel)] text-[8px] tracking-[0.4em] text-champagne/40 uppercase">{tx.badge}</span>
+          <span className="font-[var(--font-cinzel)] text-[9px] tracking-[0.4em] text-champagne/40 uppercase">{tx.badge}</span>
         </div>
 
         {/* Review card */}
@@ -108,16 +108,16 @@ export default function ReviewCarousel() {
               <div className="flex justify-center mb-2">
                 <Stars count={r.rating} />
               </div>
-              <p className="font-[var(--font-cormorant)] text-[15px] md:text-[17px] italic font-light text-champagne/90 leading-[1.65] mb-3">
+              <p className="font-[var(--font-cormorant)] text-[16px] md:text-[18px] italic font-light text-champagne/90 leading-[1.65] mb-3">
                 &ldquo;{r.text}&rdquo;
               </p>
               <div className="flex items-center justify-center gap-3">
                 <div className="w-7 h-7 rounded-full bg-gold/20 border border-gold/30 flex items-center justify-center">
-                  <span className="font-[var(--font-cinzel)] text-[8px] text-gold">{r.initials}</span>
+                  <span className="font-[var(--font-cinzel)] text-[9px] text-gold">{r.initials}</span>
                 </div>
                 <div className="text-left">
-                  <span className="font-[var(--font-cinzel)] text-[9px] tracking-[0.3em] text-champagne/70 uppercase block">{r.name}</span>
-                  <span className="font-[var(--font-jost)] text-[9px] text-champagne/35">{r.date}</span>
+                  <span className="font-[var(--font-cinzel)] text-[10px] tracking-[0.3em] text-champagne/70 uppercase block">{r.name}</span>
+                  <span className="font-[var(--font-jost)] text-[10px] text-champagne/35">{r.date}</span>
                 </div>
               </div>
             </div>
@@ -171,7 +171,7 @@ export default function ReviewCarousel() {
 
       {/* Footer bar */}
       <div className="relative px-5 py-6 md:px-[80px] md:py-7 flex flex-col items-center gap-3 md:flex-row md:items-center md:justify-between border-t border-gold/15">
-        <span className="font-[var(--font-cinzel)] text-[10px] tracking-[0.3em] text-champagne/40 uppercase">
+        <span className="font-[var(--font-cinzel)] text-[11px] tracking-[0.3em] text-champagne/40 uppercase">
           © {new Date().getFullYear()} KT Equestrian
         </span>
 
@@ -196,7 +196,7 @@ export default function ReviewCarousel() {
           </a>
         </div>
 
-        <span className="font-[var(--font-jost)] text-[10px] tracking-[0.15em] text-champagne/30 uppercase">
+        <span className="font-[var(--font-jost)] text-[11px] tracking-[0.15em] text-champagne/30 uppercase">
           {footer.sub}
         </span>
       </div>

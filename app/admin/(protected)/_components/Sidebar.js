@@ -9,7 +9,7 @@ const navItems = [
   { href: '/admin',          label: 'Dashboard', icon: LayoutDashboard },
   { href: '/admin/clients',  label: 'Clients',   icon: Users },
   { href: '/admin/invoices', label: 'Invoices',  icon: FileText },
-  { href: '/admin/calendar', label: 'Calendar',  icon: CalendarDays, soon: true },
+  { href: '/admin/bookings', label: 'Bookings',  icon: CalendarDays },
 ]
 
 export default function Sidebar() {

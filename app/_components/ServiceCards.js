@@ -31,7 +31,7 @@ export default function ServiceCards() {
         </div>
         <h2
           className="font-[var(--font-cinzel)] font-semibold text-burgundy uppercase tracking-[0.1em] leading-[1.15]"
-          style={{ fontSize: 'clamp(26px, 3.2vw, 44px)' }}
+          style={{ fontSize: 'clamp(28px, 3.4vw, 46px)' }}
         >
           {tx.title1}
           <em className="block font-[var(--font-cormorant)] italic font-light text-[1.2em] text-burgundy tracking-[0.06em]">
@@ -57,7 +57,7 @@ export default function ServiceCards() {
                 className="absolute inset-0 bg-champagne flex flex-col justify-center"
                 style={{ paddingLeft: `calc(${STRIP}% + 1.75rem)`, paddingRight: '1.75rem', paddingTop: '2rem', paddingBottom: '2rem' }}
               >
-                <span className="font-[var(--font-cinzel)] text-[8px] tracking-[0.55em] text-gold uppercase mb-3 block">
+                <span className="font-[var(--font-cinzel)] text-[9px] tracking-[0.55em] text-gold uppercase mb-3 block">
                   {card.tag}
                 </span>
                 <h3
@@ -66,16 +66,16 @@ export default function ServiceCards() {
                 >
                   {card.title}
                 </h3>
-                <p className="font-[var(--font-jost)] font-light text-[12px] leading-[1.85] text-burgundy/65 mb-4">
+                <p className="font-[var(--font-jost)] font-light text-[13px] leading-[1.85] text-burgundy/65 mb-4">
                   {card.desc}
                 </p>
-                <p className="font-[var(--font-jost)] font-light text-[11px] leading-[1.85] text-burgundy/45 mb-6">
+                <p className="font-[var(--font-jost)] font-light text-[12px] leading-[1.85] text-burgundy/45 mb-6">
                   {card.extra}
                 </p>
                 <a
                   href="#contact"
                   onClick={e => e.stopPropagation()}
-                  className="relative inline-flex items-center gap-3 font-[var(--font-cinzel)] text-[8px] tracking-[0.4em] text-burgundy uppercase border border-gold/50 px-5 py-2.5 self-start overflow-hidden group/btn transition-colors duration-300 hover:text-champagne hover:border-gold"
+                  className="relative inline-flex items-center gap-3 font-[var(--font-cinzel)] text-[9px] tracking-[0.4em] text-burgundy uppercase border border-gold/50 px-5 py-2.5 self-start overflow-hidden group/btn transition-colors duration-300 hover:text-champagne hover:border-gold"
                 >
                   <span className="absolute inset-0 bg-burgundy translate-x-[-101%] group-hover/btn:translate-x-0 transition-transform duration-300 ease-in-out" />
                   <span className="relative">{card.btn}</span>
@@ -102,7 +102,7 @@ export default function ServiceCards() {
                     transform: open ? `translateX(${COUNTER})` : 'translateX(0)',
                   }}
                 >
-                  <span className="font-[var(--font-cinzel)] text-[8px] tracking-[0.5em] text-gold/80 uppercase">
+                  <span className="font-[var(--font-cinzel)] text-[9px] tracking-[0.5em] text-gold/80 uppercase">
                     {card.tag}
                   </span>
                   <div>
@@ -168,20 +168,20 @@ export default function ServiceCards() {
               </div>
               {/* Content */}
               <div className="border-l border-gold/25 pl-4 pt-4">
-                <span className="font-[var(--font-cinzel)] text-[8px] tracking-[0.5em] text-gold uppercase mb-2 block">{card.tag}</span>
-                <h3 className="font-[var(--font-cinzel)] text-[18px] text-burgundy uppercase tracking-[0.08em] leading-[1.2] mb-3">{card.title}</h3>
-                <p className="font-[var(--font-jost)] font-light text-[13px] leading-[1.8] text-burgundy/65">{card.desc}</p>
+                <span className="font-[var(--font-cinzel)] text-[9px] tracking-[0.5em] text-gold uppercase mb-2 block">{card.tag}</span>
+                <h3 className="font-[var(--font-cinzel)] text-[19px] text-burgundy uppercase tracking-[0.08em] leading-[1.2] mb-3">{card.title}</h3>
+                <p className="font-[var(--font-jost)] font-light text-[14px] leading-[1.8] text-burgundy/65">{card.desc}</p>
                 <div style={{ maxHeight: open ? '160px' : '0', overflow: 'hidden', transition: 'max-height 0.4s ease' }}>
-                  <p className="font-[var(--font-jost)] font-light text-[12px] leading-[1.8] text-burgundy/45 pt-3 pb-4">{card.extra}</p>
+                  <p className="font-[var(--font-jost)] font-light text-[13px] leading-[1.8] text-burgundy/45 pt-3 pb-4">{card.extra}</p>
                   <a
                     href="#contact"
                     onClick={e => e.stopPropagation()}
-                    className="inline-flex items-center gap-3 font-[var(--font-cinzel)] text-[8px] tracking-[0.4em] text-burgundy uppercase border border-gold/50 px-5 py-2.5 mb-2 active:bg-gold/10"
+                    className="inline-flex items-center gap-3 font-[var(--font-cinzel)] text-[9px] tracking-[0.4em] text-burgundy uppercase border border-gold/50 px-5 py-2.5 mb-2 active:bg-gold/10"
                   >
                     {card.btn} <span className="w-[14px] h-px bg-current" />
                   </a>
                 </div>
-                <p className={`font-[var(--font-cinzel)] text-[7px] tracking-[0.35em] text-gold/50 uppercase mt-2 transition-opacity duration-300 ${open ? 'opacity-0 h-0 overflow-hidden' : 'opacity-100'}`}>
+                <p className={`font-[var(--font-cinzel)] text-[8px] tracking-[0.35em] text-gold/50 uppercase mt-2 transition-opacity duration-300 ${open ? 'opacity-0 h-0 overflow-hidden' : 'opacity-100'}`}>
                   Tap to discover
                 </p>
               </div>
