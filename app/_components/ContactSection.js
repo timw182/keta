@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useLang } from './LanguageProvider'
 import { t } from '../../lib/translations'
+import SectionHeader from './SectionHeader'
 
 function RevealField({ value, href, className }) {
   const [shown, setShown] = useState(false)
@@ -21,11 +22,7 @@ function RevealField({ value, href, className }) {
   )
 }
 
-const inputClass = `
-  w-full bg-transparent border-b border-burgundy/20 px-0 py-3
-  font-[var(--font-jost)] font-light text-[14px] text-burgundy placeholder:text-burgundy/35
-  focus:outline-none focus:border-gold transition-colors duration-200
-`.trim()
+const inputClass = 'input-field'
 
 export default function ContactSection() {
   const { lang } = useLang()
@@ -65,19 +62,7 @@ export default function ContactSection() {
 
         {/* ── Left: form ── */}
         <div>
-          <div className="flex items-center gap-3.5 font-[var(--font-cinzel)] text-[11px] tracking-[0.5em] text-gold uppercase mb-5
-            before:content-[''] before:w-[30px] before:h-px before:bg-gold">
-            {tx.label}
-          </div>
-          <h2
-            className="font-[var(--font-cinzel)] font-semibold text-burgundy uppercase tracking-[0.1em] leading-[1.15] mb-10"
-            style={{ fontSize: 'clamp(28px, 3.4vw, 46px)' }}
-          >
-            {tx.title1}
-            <em className="block font-[var(--font-cormorant)] italic font-light text-[1.2em] tracking-[0.06em]">
-              {tx.title2}
-            </em>
-          </h2>
+          <SectionHeader label={tx.label} title={tx.title1} subtitle={tx.title2} mb="mb-10" />
 
           {status === 'sent' ? (
             <div className="flex items-center gap-4 py-6 border-l-2 border-gold pl-5">
@@ -101,7 +86,7 @@ export default function ContactSection() {
                 className={`${inputClass} resize-none`} />
 
               {status === 'error' && (
-                <p className="font-[var(--font-jost)] text-[12px] text-red-700">{tx.error}</p>
+                <p className="font-[var(--font-jost)] text-[12px] text-burgundy/60 border-l-2 border-gold pl-3">{tx.error}</p>
               )}
 
               <button
@@ -121,10 +106,7 @@ export default function ContactSection() {
         {/* ── Right: details ── */}
         <div className="flex flex-col gap-10">
           <div>
-            <div className="flex items-center gap-3.5 font-[var(--font-cinzel)] text-[11px] tracking-[0.5em] text-gold uppercase mb-7
-              before:content-[''] before:w-[30px] before:h-px before:bg-gold">
-              {tx.detailsLabel}
-            </div>
+            <SectionHeader label={tx.detailsLabel} mb="mb-7" />
 
             <div className="space-y-5">
               {/* Address */}

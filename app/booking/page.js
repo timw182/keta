@@ -1,5 +1,3 @@
-'use client'
-
 import Navbar from '../_components/Navbar'
 import BookingSection from '../_components/BookingSection'
 

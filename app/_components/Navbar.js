@@ -5,13 +5,12 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useLang } from './LanguageProvider'
 import { t } from '../../lib/translations'
-
-const LANGS = ['EN', 'FR', 'LB']
+import LanguageToggle from './LanguageToggle'
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
-  const { lang, setLang } = useLang()
+  const { lang } = useLang()
   const tx = t[lang].nav
   const aboutLabel = t[lang].aboutMe.navLabel
 
@@ -61,20 +60,8 @@ export default function Navbar() {
             </span>
           </Link>
           {/* Language toggle — mobile only */}
-          <div className="flex items-center gap-0 md:hidden">
-            {LANGS.map(l => (
-              <button
-                key={l}
-                onClick={() => setLang(l)}
-                className="font-[var(--font-cinzel)] text-[8px] tracking-[0.25em] uppercase px-2 py-0.5 cursor-pointer transition-all duration-200"
-                style={{
-                  color: lang === l ? '#d4aa7d' : 'rgba(247,242,232,0.3)',
-                  borderBottom: lang === l ? '1px solid rgba(184,148,106,0.6)' : '1px solid transparent',
-                }}
-              >
-                {l}
-              </button>
-            ))}
+          <div className="md:hidden">
+            <LanguageToggle theme="dark" size="sm" />
           </div>
         </div>
 
@@ -82,20 +69,8 @@ export default function Navbar() {
         <div className="flex items-center gap-4 md:gap-8 opacity-0 animate-fade-down" style={{ animationDelay: '0.5s' }}>
 
           {/* Language toggle — desktop only */}
-          <div className="hidden md:flex items-center gap-0.5">
-            {LANGS.map(l => (
-              <button
-                key={l}
-                onClick={() => setLang(l)}
-                className="font-[var(--font-cinzel)] text-[9px] tracking-[0.25em] uppercase px-2 py-1 cursor-pointer transition-all duration-200"
-                style={{
-                  color: lang === l ? '#d4aa7d' : 'rgba(247,242,232,0.35)',
-                  borderBottom: lang === l ? '1px solid rgba(184,148,106,0.7)' : '1px solid transparent',
-                }}
-              >
-                {l}
-              </button>
-            ))}
+          <div className="hidden md:block">
+            <LanguageToggle theme="dark" size="sm" />
           </div>
 
           <a
@@ -187,22 +162,7 @@ export default function Navbar() {
         {/* Bottom: language toggle */}
         <div className="px-8 py-8 border-t border-gold/10">
           <p className="font-[var(--font-cinzel)] text-[8px] tracking-[0.5em] text-champagne/25 uppercase mb-3">Language</p>
-          <div className="flex items-center gap-1">
-            {LANGS.map(l => (
-              <button
-                key={l}
-                onClick={() => setLang(l)}
-                className="font-[var(--font-cinzel)] text-[10px] tracking-[0.3em] uppercase px-3 py-1.5 cursor-pointer transition-all duration-200 border"
-                style={{
-                  color: lang === l ? '#d4aa7d' : 'rgba(247,242,232,0.3)',
-                  borderColor: lang === l ? 'rgba(184,148,106,0.5)' : 'transparent',
-                  background: lang === l ? 'rgba(184,148,106,0.08)' : 'transparent',
-                }}
-              >
-                {l}
-              </button>
-            ))}
-          </div>
+          <LanguageToggle theme="dark" size="md" />
         </div>
       </div>
     </>

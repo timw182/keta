@@ -6,14 +6,8 @@
   --font-jost: var(--font-jost);
 
   --color-champagne: #f7f2e8;
-  --color-champagne-dark: #ede5d0;
-  --color-champagne-mid: #f0e8d5;
   --color-burgundy: #6b1428;
-  --color-burgundy-light: #8b1a32;
   --color-gold: #b8946a;
-  --color-gold-light: #d4aa7d;
-  --color-cream: #faf7f2;
-  --color-text-dark: #3a1520;
 }
 
 html {
@@ -25,6 +19,27 @@ body {
   color: var(--color-burgundy);
   overflow-x: hidden;
 }
+
+/* Global focus style */
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+}
+
+/* Shared form input */
+.input-field {
+  width: 100%;
+  background: transparent;
+  border-bottom: 1px solid rgba(107,20,40,0.2);
+  padding: 0.75rem 0;
+  font-family: var(--font-jost);
+  font-weight: 300;
+  font-size: 14px;
+  color: var(--color-burgundy);
+  transition: border-color 0.2s;
+}
+.input-field::placeholder { color: rgba(107,20,40,0.35); }
+.input-field:focus { outline: none; border-bottom-color: var(--color-gold); }
 
 @keyframes fadeDown {
   from { opacity: 0; transform: translateY(-20px); }
@@ -50,6 +65,7 @@ body {
 .animate-fade-up    { animation: fadeUp    1s ease forwards; }
 .animate-fade-in    { animation: fadeIn    1s ease forwards; }
 .animate-scroll-pulse { animation: scrollPulse 2s ease infinite; }
+
 
 /* Bubble float animations — each traces a unique organic path */
 @keyframes float1 {

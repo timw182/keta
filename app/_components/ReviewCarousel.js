@@ -4,6 +4,8 @@ import { useState, useEffect, useRef } from 'react'
 import { useLang } from './LanguageProvider'
 import { t } from '../../lib/translations'
 
+const CAROUSEL_INTERVAL_MS = 5000
+
 const reviews = [
   {
     name: 'Sophie M.',
@@ -67,7 +69,7 @@ export default function ReviewCarousel() {
 
   useEffect(() => {
     if (paused) return
-    timerRef.current = setInterval(next, 5000)
+    timerRef.current = setInterval(next, CAROUSEL_INTERVAL_MS)
     return () => clearInterval(timerRef.current)
   }, [paused, current])
 

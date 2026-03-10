@@ -30,21 +30,20 @@ export default function Sidebar() {
 
       {/* Nav */}
       <nav className="flex-1 px-3 py-5 space-y-0.5">
-        {navItems.map(({ href, label, icon: Icon, soon }) => {
+        {navItems.map(({ href, label, icon: Icon }) => {
           const active = href === '/admin' ? pathname === '/admin' : pathname.startsWith(href)
           return (
             <Link
               key={href}
-              href={soon ? '#' : href}
+              href={href}
               className={`flex items-center gap-3 px-3 py-2.5 rounded text-[13px] font-[var(--font-jost)] font-light transition-all ${
                 active
                   ? 'bg-[#b8946a]/20 text-[#b8946a] border-l-2 border-[#b8946a] pl-[10px]'
                   : 'text-[#f7f2e8]/50 hover:text-[#f7f2e8] hover:bg-white/5'
-              } ${soon ? 'pointer-events-none opacity-30' : ''}`}
+              }`}
             >
               <Icon size={15} strokeWidth={1.5} />
               <span>{label}</span>
-              {soon && <span className="ml-auto text-[9px] tracking-widest text-[#f7f2e8]/20 uppercase">Soon</span>}
             </Link>
           )
         })}

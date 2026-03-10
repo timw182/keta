@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useLang } from './LanguageProvider'
 import { t } from '../../lib/translations'
 
@@ -21,13 +21,16 @@ const TIME_SLOTS = [
 const DAYS = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su']
 
 function Calendar({ selected, onSelect }) {
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
-
-  const [view, setView] = useState(() => {
+  const today = useMemo(() => {
     const d = new Date()
-    return { year: d.getFullYear(), month: d.getMonth() }
-  })
+    d.setHours(0, 0, 0, 0)
+    return d
+  }, [])
+
+  const [view, setView] = useState(() => ({
+    year: today.getFullYear(),
+    month: today.getMonth(),
+  }))
 
   const firstDay = new Date(view.year, view.month, 1)
   // Monday-first offset
@@ -232,7 +235,7 @@ export default function BookingSection() {
                       <button
                         key={key}
                         onClick={() => { setType(key); setStep(2) }}
-                        className={`relative flex-1 flex items-center gap-4 px-6 py-5 text-left border transition-all duration-200 active:scale-[0.98] overflow-hidden group ${
+                        className={`relative flex-1 flex items-center gap-4 px-6 py-5 text-left border transition-all duration-200 active:scale-[0.97] overflow-hidden group ${
                           selected
                             ? 'bg-burgundy border-burgundy text-champagne shadow-md'
                             : 'bg-white border-burgundy/15 text-burgundy hover:border-gold hover:shadow-sm'
@@ -283,7 +286,7 @@ export default function BookingSection() {
                       <button
                         key={s.start}
                         onClick={() => { setSlot(s); setStep(4) }}
-                        className={`relative py-3.5 font-[var(--font-cinzel)] text-[10px] tracking-[0.2em] transition-all duration-150 active:scale-[0.96] overflow-hidden group ${
+                        className={`relative py-3.5 font-[var(--font-cinzel)] text-[10px] tracking-[0.2em] transition-all duration-150 active:scale-[0.97] overflow-hidden group ${
                           isSelected
                             ? 'bg-gold text-champagne shadow-sm'
                             : 'bg-white border border-burgundy/15 text-burgundy hover:border-gold hover:shadow-sm'

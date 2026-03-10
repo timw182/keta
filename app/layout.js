@@ -1,6 +1,7 @@
 import { Cinzel, Cormorant_Garamond, Jost } from 'next/font/google'
 import './globals.css'
 import { LanguageProvider } from './_components/LanguageProvider'
+import LoadingScreen from './_components/LoadingScreen'
 
 const cinzel = Cinzel({
   subsets: ['latin'],
@@ -30,7 +31,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${cinzel.variable} ${cormorant.variable} ${jost.variable} font-[var(--font-jost)] antialiased`}>
-        <LanguageProvider>{children}</LanguageProvider>
+        <LanguageProvider>
+          <LoadingScreen>{children}</LoadingScreen>
+        </LanguageProvider>
       </body>
     </html>
   )
