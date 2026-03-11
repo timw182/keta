@@ -10,6 +10,7 @@ export default function LoadingScreen({ children }) {
   useEffect(() => {
     // Animate progress bar to reflect real loading
     let raf
+    let t1, t2
     const start = performance.now()
 
     function tick(now) {
@@ -21,19 +22,26 @@ export default function LoadingScreen({ children }) {
     }
     raf = requestAnimationFrame(tick)
 
-    const heroImg = new window.Image()
-    heroImg.onload = heroImg.onerror = () => {
+    function dismiss() {
       cancelAnimationFrame(raf)
       setProgress(100)
-      // Small delay only for the bar to visually reach 100% before fade
-      setTimeout(() => {
+      t1 = setTimeout(() => {
         setLoaded(true)
-        setTimeout(() => setHidden(true), 500)
+        t2 = setTimeout(() => setHidden(true), 500)
       }, 150)
+    }
+
+    // Force-dismiss after 5s max (slow mobile connections)
+    const maxWait = setTimeout(dismiss, 5000)
+
+    const heroImg = new window.Image()
+    heroImg.onload = heroImg.onerror = () => {
+      clearTimeout(maxWait)
+      dismiss()
     }
     heroImg.src = '/images/choice2.jpeg'
 
-    return () => cancelAnimationFrame(raf)
+    return () => { cancelAnimationFrame(raf); clearTimeout(maxWait); clearTimeout(t1); clearTimeout(t2) }
   }, [])
 
   return (

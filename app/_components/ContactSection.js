@@ -26,6 +26,7 @@ function FloatField({ name, type = 'text', required, label, rows, value, onChang
   const isActive = focused || value.length > 0
 
   const shared = {
+    id: name,
     name,
     value,
     onChange,
@@ -43,6 +44,7 @@ function FloatField({ name, type = 'text', required, label, rows, value, onChang
   return (
     <div className="relative">
       <label
+        htmlFor={name}
         className={[
           'absolute left-4 pointer-events-none font-[var(--font-jost)] font-light transition-all duration-200',
           isActive
@@ -97,7 +99,7 @@ export default function ContactSection() {
     }
   }
 
-  const fadeClass = (delay = 0) =>
+  const fadeClass = () =>
     `transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`
   const fadeStyle = (delay = 0) => ({ transitionDelay: visible ? `${delay}ms` : '0ms' })
 
