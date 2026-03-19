@@ -73,6 +73,13 @@ export default function Navbar() {
             <LanguageToggle theme="dark" size="sm" />
           </div>
 
+          <Link
+            href="/booking"
+            className="hidden md:inline-block font-[var(--font-cinzel)] text-[11px] tracking-[0.3em] text-champagne uppercase bg-burgundy border border-burgundy/80 px-5 py-2 transition-all duration-300 hover:bg-burgundy/80 hover:border-gold btn-shimmer"
+          >
+            {t[lang].contact.bookingNavLabel}
+          </Link>
+
           <a
             href="#contact"
             className="hidden md:inline-block font-[var(--font-cinzel)] text-[11px] tracking-[0.3em] text-champagne uppercase border border-gold/50 px-5 py-2 transition-all duration-300 hover:bg-gold/15 hover:border-gold hover:text-gold"

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef, useEffect } from 'react'
 import { useLang } from './LanguageProvider'
 import { t } from '../../lib/translations'
 
@@ -33,7 +33,6 @@ function Calendar({ selected, onSelect }) {
   }))
 
   const firstDay = new Date(view.year, view.month, 1)
-  // Monday-first offset
   const startOffset = (firstDay.getDay() + 6) % 7
   const daysInMonth = new Date(view.year, view.month + 1, 0).getDate()
 
@@ -58,23 +57,27 @@ function Calendar({ selected, onSelect }) {
     })
   }
 
+  const isToday = (day) => {
+    return view.year === today.getFullYear() && view.month === today.getMonth() && day === today.getDate()
+  }
+
   return (
-    <div className="w-full max-w-[320px]">
+    <div className="w-full max-w-[340px]">
       {/* Header */}
-      <div className="flex items-center justify-between mb-4">
-        <button onClick={prevMonth} className="w-7 h-7 flex items-center justify-center text-burgundy/40 hover:text-gold transition-colors">
+      <div className="flex items-center justify-between mb-5">
+        <button onClick={prevMonth} className="w-8 h-8 flex items-center justify-center text-burgundy/35 hover:text-gold transition-colors cursor-pointer">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M15 18l-6-6 6-6"/></svg>
         </button>
         <span className="font-[var(--font-cinzel)] text-[11px] tracking-[0.3em] text-burgundy uppercase">{monthName}</span>
-        <button onClick={nextMonth} className="w-7 h-7 flex items-center justify-center text-burgundy/40 hover:text-gold transition-colors">
+        <button onClick={nextMonth} className="w-8 h-8 flex items-center justify-center text-burgundy/35 hover:text-gold transition-colors cursor-pointer">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M9 18l6-6-6-6"/></svg>
         </button>
       </div>
 
       {/* Day labels */}
-      <div className="grid grid-cols-7 mb-1">
+      <div className="grid grid-cols-7 mb-2">
         {DAYS.map(d => (
-          <div key={d} className="text-center font-[var(--font-cinzel)] text-[9px] tracking-[0.15em] text-burgundy/35 uppercase py-1">{d}</div>
+          <div key={d} className="text-center font-[var(--font-cinzel)] text-[9px] tracking-[0.15em] text-burgundy/30 uppercase py-1">{d}</div>
         ))}
       </div>
 
@@ -95,10 +98,10 @@ function Calendar({ selected, onSelect }) {
               disabled={disabled}
               onClick={() => onSelect(dateStr)}
               className={`
-                h-8 w-full flex items-center justify-center font-[var(--font-jost)] text-[12px] transition-all duration-150
-                ${disabled ? 'text-burgundy/20 cursor-not-allowed' : 'cursor-pointer'}
-                ${isSelected ? 'bg-gold text-champagne rounded' : !disabled ? 'hover:bg-gold/15 hover:text-gold rounded' : ''}
-                ${!disabled && !isSelected ? 'text-burgundy' : ''}
+                h-9 w-full flex items-center justify-center font-[var(--font-jost)] text-[12px] transition-all duration-150 rounded cursor-pointer
+                ${disabled ? 'text-burgundy/15 !cursor-not-allowed' : ''}
+                ${isSelected ? 'bg-gold text-champagne' : !disabled ? 'hover:bg-gold/15 hover:text-gold text-burgundy' : ''}
+                ${isToday(day) && !isSelected ? 'ring-1 ring-gold/30' : ''}
               `}
             >
               {day}
@@ -114,12 +117,24 @@ export default function BookingSection() {
   const { lang } = useLang()
   const tx = t[lang].booking
 
-  const [step, setStep] = useState(1) // 1=type, 2=date, 3=slot, 4=details
+  const [step, setStep] = useState(1)
   const [type, setType] = useState(null)
   const [date, setDate] = useState(null)
   const [slot, setSlot] = useState(null)
   const [form, setForm] = useState({ name: '', email: '', phone: '', notes: '' })
-  const [status, setStatus] = useState(null) // null | 'sending' | 'done' | 'error'
+  const [status, setStatus] = useState(null)
+
+  const sectionRef = useRef(null)
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) setVisible(true) },
+      { threshold: 0.08 }
+    )
+    if (sectionRef.current) obs.observe(sectionRef.current)
+    return () => obs.disconnect()
+  }, [])
 
   function handleFormChange(e) {
     setForm(f => ({ ...f, [e.target.name]: e.target.value }))
@@ -159,212 +174,228 @@ export default function BookingSection() {
     { n: 4, label: tx.step4 },
   ]
 
+  /* Stagger helper */
+  const s = (delay) => ({
+    className: `transition-all duration-[1.2s] ease-out ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`,
+    style: { transitionDelay: visible ? `${delay}ms` : '0ms' },
+  })
+
   return (
     <section
       id="booking"
-      className="relative bg-champagne px-5 py-16 md:px-[80px] md:py-[100px]
-        before:content-[''] before:absolute before:top-0 before:left-5 before:right-5
-        md:before:left-[80px] md:before:right-[80px] before:h-px
-        before:bg-gradient-to-r before:from-transparent before:via-gold/60 before:to-transparent"
+      ref={sectionRef}
+      className="relative bg-champagne overflow-hidden"
     >
-      {/* Header */}
-      <div className="mb-10 md:mb-14">
-        <div className="flex items-center gap-3.5 font-[var(--font-cinzel)] text-[11px] tracking-[0.5em] text-gold uppercase mb-5
-          before:content-[''] before:w-[30px] before:h-px before:bg-gold">
-          {tx.label}
-        </div>
-        <h2 className="font-[var(--font-cinzel)] font-semibold text-burgundy uppercase tracking-[0.1em] leading-[1.15]"
-          style={{ fontSize: 'clamp(28px, 3.4vw, 46px)' }}>
-          {tx.title1}
-          <em className="block font-[var(--font-cormorant)] italic font-light text-[1.2em] text-burgundy tracking-[0.06em]">
-            {tx.title2}
-          </em>
-        </h2>
-      </div>
+      {/* Top rule */}
+      <div className="absolute top-0 inset-x-5 md:inset-x-20 h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
 
-      {status === 'done' ? (
-        /* ── Success state ── */
-        <div className="max-w-[520px] border border-gold/30 px-8 py-10 text-center">
-          <div className="w-10 h-10 rounded-full border border-gold/40 flex items-center justify-center mx-auto mb-5">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#b8946a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="20 6 9 17 4 12"/>
-            </svg>
+      <div className="max-w-[1320px] mx-auto px-5 py-20 md:px-20 md:py-32">
+
+        {/* Header — staggered */}
+        <div className="mb-12 md:mb-16">
+          <div {...s(0)} className={`flex items-center gap-3.5 mb-8 ${s(0).className}`}>
+            <span className={`h-px bg-gold transition-all duration-[1.4s] ease-out ${visible ? 'w-8' : 'w-0'}`} />
+            <span className="font-[var(--font-cinzel)] text-[9px] tracking-[0.5em] text-gold uppercase">{tx.label}</span>
           </div>
-          <h3 className="font-[var(--font-cinzel)] text-[13px] tracking-[0.3em] text-burgundy uppercase mb-3">{tx.successTitle}</h3>
-          <p className="font-[var(--font-jost)] font-light text-[13px] text-burgundy/60 leading-[1.8] mb-6">{tx.successMsg}</p>
-          <button onClick={() => { setStep(1); setType(null); setDate(null); setSlot(null); setForm({ name: '', email: '', phone: '', notes: '' }); setStatus(null) }}
-            className="font-[var(--font-cinzel)] text-[10px] tracking-[0.35em] text-gold uppercase border-b border-gold pb-1 hover:text-burgundy transition-colors">
-            {tx.bookAnother}
-          </button>
+          <h2
+            {...s(150)}
+            className={`font-[var(--font-cinzel)] text-burgundy uppercase tracking-[0.08em] leading-[1.1] ${s(150).className}`}
+            style={{ ...s(150).style, fontSize: 'clamp(28px, 4vw, 52px)' }}
+          >
+            {tx.title1}
+            <em className="block font-[var(--font-cormorant)] italic font-light text-[1.15em] text-burgundy tracking-[0.04em]">
+              {tx.title2}
+            </em>
+          </h2>
         </div>
-      ) : (
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-12 md:gap-16">
 
-          {/* ── Left: steps ── */}
-          <div>
-            {/* Step indicator */}
-            <div className="flex items-center gap-0 mb-10">
-              {stepLabel.map(({ n, label }, i) => (
-                <div key={n} className="flex items-center">
-                  <button
-                    onClick={() => { if (n < step) setStep(n) }}
-                    className={`flex items-center gap-2 transition-all ${n < step ? 'cursor-pointer' : 'cursor-default'}`}
-                  >
-                    <span className={`w-6 h-6 rounded-full flex items-center justify-center font-[var(--font-cinzel)] text-[9px] border transition-all ${
-                      step === n ? 'bg-gold border-gold text-champagne' :
-                      step > n ? 'bg-gold/20 border-gold/50 text-gold' :
-                      'border-burgundy/20 text-burgundy/30'
-                    }`}>{n}</span>
-                    <span className={`font-[var(--font-cinzel)] text-[9px] tracking-[0.2em] uppercase hidden sm:block transition-all ${
-                      step === n ? 'text-burgundy' : step > n ? 'text-gold/70' : 'text-burgundy/25'
-                    }`}>{label}</span>
-                  </button>
-                  {i < 3 && <div className={`w-6 md:w-10 h-px mx-2 transition-all ${step > n ? 'bg-gold/50' : 'bg-burgundy/15'}`} />}
-                </div>
-              ))}
+        {status === 'done' ? (
+          <div {...s(0)} className={`max-w-[520px] border border-gold/25 px-8 py-12 ${s(0).className}`}>
+            <div className="w-11 h-11 rounded-full border border-gold/30 flex items-center justify-center mb-6">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#b8946a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
             </div>
+            <h3 className="font-[var(--font-cinzel)] text-[12px] tracking-[0.3em] text-burgundy uppercase mb-3">{tx.successTitle}</h3>
+            <p className="font-[var(--font-jost)] font-light text-[14px] text-burgundy/55 leading-[1.8] mb-8">{tx.successMsg}</p>
+            <button onClick={() => { setStep(1); setType(null); setDate(null); setSlot(null); setForm({ name: '', email: '', phone: '', notes: '' }); setStatus(null) }}
+              className="group inline-flex items-center gap-4 font-[var(--font-cinzel)] text-[10px] tracking-[0.35em] text-gold uppercase cursor-pointer">
+              {tx.bookAnother}
+              <span className="w-6 h-px bg-current group-hover:w-12 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]" />
+            </button>
+          </div>
+        ) : (
+          <div {...s(250)} className={`grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-12 md:gap-20 ${s(250).className}`}>
 
-            {/* Step 1: Type */}
-            {step === 1 && (
-              <div>
-                <p className="font-[var(--font-jost)] font-light text-[13px] text-burgundy/60 mb-6">{tx.chooseType}</p>
-                <div className="flex flex-col sm:flex-row gap-3 max-w-[480px]">
-                  {TYPES.map(({ key, icon }) => {
-                    const selected = type === key
-                    return (
-                      <button
-                        key={key}
-                        onClick={() => { setType(key); setStep(2) }}
-                        className={`relative flex-1 flex items-center gap-4 px-6 py-5 text-left border transition-all duration-200 active:scale-[0.97] overflow-hidden group ${
-                          selected
-                            ? 'bg-burgundy border-burgundy text-champagne shadow-md'
-                            : 'bg-white border-burgundy/15 text-burgundy hover:border-gold hover:shadow-sm'
-                        }`}
-                      >
-                        {/* Hover fill */}
-                        {!selected && <span className="absolute inset-0 bg-gold/8 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />}
-                        <span className="text-xl flex-shrink-0 relative">{icon}</span>
-                        <span className="relative">
-                          <span className={`font-[var(--font-cinzel)] text-[11px] tracking-[0.25em] uppercase block mb-0.5 ${selected ? 'text-champagne' : 'text-burgundy'}`}>
-                            {tx.types[key]}
+            {/* ── Left: steps ── */}
+            <div>
+              {/* Step indicator */}
+              <div className="flex items-center gap-0 mb-12">
+                {stepLabel.map(({ n, label }, i) => (
+                  <div key={n} className="flex items-center">
+                    <button
+                      onClick={() => { if (n < step) setStep(n) }}
+                      className={`flex items-center gap-2 transition-all ${n < step ? 'cursor-pointer' : 'cursor-default'}`}
+                    >
+                      <span className={`w-7 h-7 rounded-full flex items-center justify-center font-[var(--font-cinzel)] text-[9px] border transition-all duration-300 ${
+                        step === n ? 'bg-gold border-gold text-champagne' :
+                        step > n ? 'bg-gold/15 border-gold/40 text-gold' :
+                        'border-burgundy/15 text-burgundy/25'
+                      }`}>{n}</span>
+                      <span className={`font-[var(--font-cinzel)] text-[9px] tracking-[0.2em] uppercase hidden sm:block transition-all duration-300 ${
+                        step === n ? 'text-burgundy' : step > n ? 'text-gold/60' : 'text-burgundy/20'
+                      }`}>{label}</span>
+                    </button>
+                    {i < 3 && (
+                      <div className={`w-6 md:w-12 h-px mx-2 transition-all duration-500 ${step > n ? 'bg-gold/40' : 'bg-burgundy/10'}`} />
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {/* Step 1: Type */}
+              {step === 1 && (
+                <div className="animate-fade-up" style={{ animationDuration: '0.6s' }}>
+                  <p className="font-[var(--font-jost)] font-light text-[14px] text-burgundy/50 mb-7">{tx.chooseType}</p>
+                  <div className="flex flex-col sm:flex-row gap-3 max-w-[500px]">
+                    {TYPES.map(({ key, icon }) => {
+                      const sel = type === key
+                      return (
+                        <button
+                          key={key}
+                          onClick={() => { setType(key); setStep(2) }}
+                          className={`relative flex-1 flex items-center gap-4 px-6 py-5 text-left border transition-all duration-200 active:scale-[0.97] overflow-hidden group cursor-pointer ${
+                            sel
+                              ? 'bg-burgundy border-burgundy text-champagne'
+                              : 'bg-white border-burgundy/10 text-burgundy hover:border-gold/50 hover:shadow-sm'
+                          }`}
+                        >
+                          {!sel && <span className="absolute inset-0 bg-gold/5 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />}
+                          <span className="text-xl flex-shrink-0 relative">{icon}</span>
+                          <span className="relative">
+                            <span className={`font-[var(--font-cinzel)] text-[11px] tracking-[0.25em] uppercase block mb-0.5 ${sel ? 'text-champagne' : 'text-burgundy'}`}>
+                              {tx.types[key]}
+                            </span>
+                            <span className={`font-[var(--font-jost)] font-light text-[11px] ${sel ? 'text-champagne/65' : 'text-burgundy/40'}`}>
+                              {tx.typeDesc[key]}
+                            </span>
                           </span>
-                          <span className={`font-[var(--font-jost)] font-light text-[11px] ${selected ? 'text-champagne/70' : 'text-burgundy/45'}`}>
-                            {tx.typeDesc[key]}
-                          </span>
-                        </span>
-                        {selected && (
-                          <span className="ml-auto flex-shrink-0">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                              <polyline points="20 6 9 17 4 12"/>
-                            </svg>
-                          </span>
+                          {sel && (
+                            <span className="ml-auto flex-shrink-0">
+                              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <polyline points="20 6 9 17 4 12"/>
+                              </svg>
+                            </span>
+                          )}
+                        </button>
+                      )
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* Step 2: Date */}
+              {step === 2 && (
+                <div className="animate-fade-up" style={{ animationDuration: '0.6s' }}>
+                  <p className="font-[var(--font-jost)] font-light text-[14px] text-burgundy/50 mb-7">{tx.chooseDate}</p>
+                  <Calendar selected={date} onSelect={(d) => { setDate(d); setSlot(null); setStep(3) }} />
+                </div>
+              )}
+
+              {/* Step 3: Time slot */}
+              {step === 3 && (
+                <div className="animate-fade-up" style={{ animationDuration: '0.6s' }}>
+                  <p className="font-[var(--font-jost)] font-light text-[14px] text-burgundy/50 mb-2">{formatDate(date)}</p>
+                  <p className="font-[var(--font-jost)] font-light text-[12px] text-burgundy/35 mb-7">{tx.chooseSlot}</p>
+                  <div className="grid grid-cols-3 gap-3 max-w-[380px]">
+                    {TIME_SLOTS.map((sl) => {
+                      const isSel = slot?.start === sl.start
+                      return (
+                        <button
+                          key={sl.start}
+                          onClick={() => { setSlot(sl); setStep(4) }}
+                          className={`relative py-4 font-[var(--font-cinzel)] text-[10px] tracking-[0.2em] transition-all duration-200 active:scale-[0.97] overflow-hidden group cursor-pointer ${
+                            isSel
+                              ? 'bg-gold text-champagne'
+                              : 'bg-white border border-burgundy/10 text-burgundy hover:border-gold/40'
+                          }`}
+                        >
+                          {!isSel && <span className="absolute inset-0 bg-gold opacity-0 group-hover:opacity-[0.08] transition-opacity duration-150" />}
+                          <span className="relative">{sl.start}</span>
+                        </button>
+                      )
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* Step 4: Details */}
+              {step === 4 && (
+                <div className="max-w-[500px] animate-fade-up" style={{ animationDuration: '0.6s' }}>
+                  <p className="font-[var(--font-jost)] font-light text-[14px] text-burgundy/50 mb-7">{tx.fillDetails}</p>
+                  <form onSubmit={handleSubmit} className="space-y-5">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                      <input name="name" value={form.name} onChange={handleFormChange} required
+                        placeholder={tx.namePlaceholder}
+                        className="input-field" />
+                      <input name="email" type="email" value={form.email} onChange={handleFormChange} required
+                        placeholder={tx.emailPlaceholder}
+                        className="input-field" />
+                    </div>
+                    <input name="phone" value={form.phone} onChange={handleFormChange}
+                      placeholder={tx.phonePlaceholder}
+                      className="input-field" />
+                    <textarea name="notes" value={form.notes} onChange={handleFormChange} rows={3}
+                      placeholder={tx.notesPlaceholder}
+                      className="input-field resize-none" />
+
+                    {status === 'error' && (
+                      <p className="font-[var(--font-jost)] text-[12px] text-burgundy/60 border-l-2 border-gold/50 pl-3">{tx.error}</p>
+                    )}
+
+                    <div className="pt-3">
+                      <button type="submit" disabled={status === 'sending'}
+                        className="btn-shimmer inline-flex items-center gap-5 font-[var(--font-cinzel)] text-[10px] tracking-[0.4em] text-champagne uppercase bg-burgundy border border-burgundy/80 px-8 py-3.5 transition-all duration-300 hover:bg-burgundy/80 active:scale-[0.97] disabled:opacity-40 cursor-pointer">
+                        {status === 'sending' ? tx.sending : tx.submit}
+                        {status !== 'sending' && (
+                          <span className="relative w-[20px] h-px bg-current after:content-[''] after:absolute after:right-0 after:top-[-3px] after:w-[5px] after:h-[5px] after:border-r after:border-t after:border-current after:rotate-45" />
                         )}
                       </button>
-                    )
-                  })}
-                </div>
-              </div>
-            )}
-
-            {/* Step 2: Date */}
-            {step === 2 && (
-              <div>
-                <p className="font-[var(--font-jost)] font-light text-[13px] text-burgundy/60 mb-6">{tx.chooseDate}</p>
-                <Calendar selected={date} onSelect={(d) => { setDate(d); setSlot(null); setStep(3) }} />
-              </div>
-            )}
-
-            {/* Step 3: Time slot */}
-            {step === 3 && (
-              <div>
-                <p className="font-[var(--font-jost)] font-light text-[13px] text-burgundy/60 mb-2">{formatDate(date)}</p>
-                <p className="font-[var(--font-jost)] font-light text-[12px] text-burgundy/40 mb-6">{tx.chooseSlot}</p>
-                <div className="grid grid-cols-3 gap-2.5 max-w-[360px]">
-                  {TIME_SLOTS.map((s) => {
-                    const isSelected = slot?.start === s.start
-                    return (
-                      <button
-                        key={s.start}
-                        onClick={() => { setSlot(s); setStep(4) }}
-                        className={`relative py-3.5 font-[var(--font-cinzel)] text-[10px] tracking-[0.2em] transition-all duration-150 active:scale-[0.97] overflow-hidden group ${
-                          isSelected
-                            ? 'bg-gold text-champagne shadow-sm'
-                            : 'bg-white border border-burgundy/15 text-burgundy hover:border-gold hover:shadow-sm'
-                        }`}
-                      >
-                        {!isSelected && <span className="absolute inset-0 bg-gold opacity-0 group-hover:opacity-10 transition-opacity duration-150" />}
-                        <span className="relative">{s.start}</span>
-                      </button>
-                    )
-                  })}
-                </div>
-              </div>
-            )}
-
-            {/* Step 4: Details */}
-            {step === 4 && (
-              <div className="max-w-[480px]">
-                <p className="font-[var(--font-jost)] font-light text-[13px] text-burgundy/60 mb-6">{tx.fillDetails}</p>
-                <form onSubmit={handleSubmit} className="space-y-5">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <input name="name" value={form.name} onChange={handleFormChange} required
-                      placeholder={tx.namePlaceholder}
-                      className="w-full bg-transparent border-b border-burgundy/20 px-0 py-3 font-[var(--font-jost)] font-light text-[13px] text-burgundy placeholder:text-burgundy/35 focus:outline-none focus:border-gold transition-colors duration-200" />
-                    <input name="email" type="email" value={form.email} onChange={handleFormChange} required
-                      placeholder={tx.emailPlaceholder}
-                      className="w-full bg-transparent border-b border-burgundy/20 px-0 py-3 font-[var(--font-jost)] font-light text-[13px] text-burgundy placeholder:text-burgundy/35 focus:outline-none focus:border-gold transition-colors duration-200" />
-                  </div>
-                  <input name="phone" value={form.phone} onChange={handleFormChange}
-                    placeholder={tx.phonePlaceholder}
-                    className="w-full bg-transparent border-b border-burgundy/20 px-0 py-3 font-[var(--font-jost)] font-light text-[13px] text-burgundy placeholder:text-burgundy/35 focus:outline-none focus:border-gold transition-colors duration-200" />
-                  <textarea name="notes" value={form.notes} onChange={handleFormChange} rows={3}
-                    placeholder={tx.notesPlaceholder}
-                    className="w-full bg-transparent border-b border-burgundy/20 px-0 py-3 font-[var(--font-jost)] font-light text-[13px] text-burgundy placeholder:text-burgundy/35 focus:outline-none focus:border-gold transition-colors duration-200 resize-none" />
-
-                  {status === 'error' && (
-                    <p className="font-[var(--font-jost)] text-[11px] text-red-700">{tx.error}</p>
-                  )}
-
-                  <button type="submit" disabled={status === 'sending'}
-                    className="btn-shimmer inline-flex items-center gap-4 font-[var(--font-cinzel)] text-[11px] tracking-[0.4em] text-champagne uppercase bg-burgundy px-8 py-3.5 transition-all duration-300 hover:bg-burgundy/80 active:scale-[0.97] disabled:opacity-50 mt-2">
-                    {status === 'sending' ? tx.sending : tx.submit}
-                    {status !== 'sending' && (
-                      <span className="relative w-[20px] h-px bg-current after:content-[''] after:absolute after:right-0 after:top-[-3px] after:w-[5px] after:h-[5px] after:border-r after:border-t after:border-current after:rotate-45" />
-                    )}
-                  </button>
-                </form>
-              </div>
-            )}
-          </div>
-
-          {/* ── Right: summary card ── */}
-          <div className="hidden lg:block">
-            <div className="border border-gold/25 px-7 py-8 sticky top-24">
-              <p className="font-[var(--font-cinzel)] text-[9px] tracking-[0.5em] text-gold uppercase mb-6">{tx.summary}</p>
-              <div className="space-y-5">
-                <SummaryRow icon="◈" label={tx.summaryType} value={type ? tx.types[type] : '—'} active={!!type} />
-                <SummaryRow icon="◈" label={tx.summaryDate} value={date ? formatDate(date) : '—'} active={!!date} />
-                <SummaryRow icon="◈" label={tx.summaryTime} value={slot ? `${slot.start} – ${slot.end}` : '—'} active={!!slot} />
-                <SummaryRow icon="◈" label={tx.summaryName} value={form.name || '—'} active={!!form.name} />
-              </div>
-              {type && date && slot && (
-                <div className="mt-8 pt-6 border-t border-gold/20">
-                  <p className="font-[var(--font-jost)] font-light text-[11px] text-burgundy/50 leading-[1.8]">{tx.summaryNote}</p>
+                    </div>
+                  </form>
                 </div>
               )}
             </div>
+
+            {/* ── Right: summary card ── */}
+            <div className="hidden lg:block">
+              <div className="border border-gold/20 px-7 py-8 sticky top-28">
+                <p className="font-[var(--font-cinzel)] text-[9px] tracking-[0.5em] text-gold uppercase mb-7">{tx.summary}</p>
+                <div className="space-y-6">
+                  <SummaryRow label={tx.summaryType} value={type ? tx.types[type] : '—'} active={!!type} />
+                  <SummaryRow label={tx.summaryDate} value={date ? formatDate(date) : '—'} active={!!date} />
+                  <SummaryRow label={tx.summaryTime} value={slot ? `${slot.start} – ${slot.end}` : '—'} active={!!slot} />
+                  <SummaryRow label={tx.summaryName} value={form.name || '—'} active={!!form.name} />
+                </div>
+                {type && date && slot && (
+                  <div className="mt-8 pt-6 border-t border-gold/15">
+                    <p className="font-[var(--font-jost)] font-light text-[11px] text-burgundy/40 leading-[1.8]">{tx.summaryNote}</p>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </section>
   )
 }
 
 function SummaryRow({ label, value, active }) {
   return (
-    <div className="flex flex-col gap-0.5">
-      <span className="font-[var(--font-cinzel)] text-[8px] tracking-[0.4em] text-burgundy/35 uppercase">{label}</span>
-      <span className={`font-[var(--font-jost)] font-light text-[13px] transition-all ${active ? 'text-burgundy' : 'text-burgundy/25'}`}>{value}</span>
+    <div className="flex flex-col gap-1">
+      <span className="font-[var(--font-cinzel)] text-[8px] tracking-[0.4em] text-burgundy/30 uppercase">{label}</span>
+      <span className={`font-[var(--font-jost)] font-light text-[13px] transition-all duration-300 ${active ? 'text-burgundy' : 'text-burgundy/20'}`}>{value}</span>
     </div>
   )
 }

@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import { useLang } from './LanguageProvider'
 import { t } from '../../lib/translations'
 
+/* Anti-scrape reveal for phone/email */
 function RevealField({ value, href, className }) {
   const [shown, setShown] = useState(false)
   if (shown) {
@@ -14,13 +15,14 @@ function RevealField({ value, href, className }) {
   return (
     <button
       onClick={() => setShown(true)}
-      className="font-[var(--font-jost)] font-light text-[13px] text-gold/55 border-b border-dotted border-gold/35 hover:text-gold hover:border-gold transition-colors duration-200 cursor-pointer pb-px"
+      className="font-[var(--font-jost)] font-light text-[13px] text-gold/50 border-b border-dotted border-gold/30 hover:text-gold hover:border-gold transition-colors duration-200 cursor-pointer pb-px"
     >
       Click to reveal
     </button>
   )
 }
 
+/* Floating label input */
 function FloatField({ name, type = 'text', required, label, rows, value, onChange }) {
   const [focused, setFocused] = useState(false)
   const isActive = focused || value.length > 0
@@ -34,9 +36,9 @@ function FloatField({ name, type = 'text', required, label, rows, value, onChang
     onFocus: () => setFocused(true),
     onBlur: () => setFocused(false),
     className: [
-      'w-full bg-white/[0.04] border border-white/10 px-4 font-[var(--font-jost)] font-light',
-      'text-[14px] text-champagne/90 focus:outline-none transition-colors duration-300',
-      focused ? 'border-gold/50 bg-white/[0.07]' : 'hover:border-white/20',
+      'w-full bg-white/[0.03] border border-white/[0.08] px-4 font-[var(--font-jost)] font-light',
+      'text-[14px] text-champagne/90 focus:outline-none transition-all duration-300',
+      focused ? 'border-gold/40 bg-white/[0.06]' : 'hover:border-white/15',
       rows ? 'pt-7 pb-3 resize-none' : 'pt-6 pb-2',
     ].join(' '),
   }
@@ -48,8 +50,8 @@ function FloatField({ name, type = 'text', required, label, rows, value, onChang
         className={[
           'absolute left-4 pointer-events-none font-[var(--font-jost)] font-light transition-all duration-200',
           isActive
-            ? 'top-[9px] text-[9px] tracking-[0.22em] uppercase ' + (focused ? 'text-gold/80' : 'text-gold/55')
-            : 'top-4 text-[13px] text-white/30',
+            ? 'top-[9px] text-[9px] tracking-[0.22em] uppercase ' + (focused ? 'text-gold/70' : 'text-gold/45')
+            : 'top-4 text-[13px] text-white/25',
         ].join(' ')}
       >
         {label}
@@ -62,19 +64,42 @@ function FloatField({ name, type = 'text', required, label, rows, value, onChang
   )
 }
 
+/* Contact detail row data */
+const detailIcons = {
+  address: (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#b8946a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+    </svg>
+  ),
+  phone: (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#b8946a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.99 12 19.79 19.79 0 0 1 1.96 3.35 2 2 0 0 1 3.93 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+    </svg>
+  ),
+  email: (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#b8946a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+    </svg>
+  ),
+  hours: (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#b8946a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+    </svg>
+  ),
+}
+
 export default function ContactSection() {
   const { lang } = useLang()
   const tx = t[lang].contact
   const sectionRef = useRef(null)
   const [visible, setVisible] = useState(false)
-
   const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' })
   const [status, setStatus] = useState(null)
 
   useEffect(() => {
     const obs = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) setVisible(true) },
-      { threshold: 0.08 }
+      { threshold: 0.06 }
     )
     if (sectionRef.current) obs.observe(sectionRef.current)
     return () => obs.disconnect()
@@ -99,209 +124,179 @@ export default function ContactSection() {
     }
   }
 
-  const fadeClass = () =>
-    `transition-all duration-700 ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`
-  const fadeStyle = (delay = 0) => ({ transitionDelay: visible ? `${delay}ms` : '0ms' })
+  /* Stagger helpers */
+  const s = (delay) => ({
+    className: `transition-all duration-[1s] ease-out ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`,
+    style: { transitionDelay: visible ? `${delay}ms` : '0ms' },
+  })
+
+  /* Contact detail rows */
+  const details = [
+    { icon: detailIcons.address, label: tx.detailsLabel, content: <p className="font-[var(--font-jost)] font-light text-[14px] text-champagne/50 leading-[1.7]">{tx.address}</p> },
+    { icon: detailIcons.phone, label: 'Phone', content: <RevealField value={tx.phone} href={`tel:${tx.phone.replace(/\s/g, '')}`} className="font-[var(--font-jost)] font-light text-[14px] text-champagne/50 hover:text-gold transition-colors duration-200" /> },
+    { icon: detailIcons.email, label: 'Email', content: <RevealField value={tx.email} href={`mailto:${tx.email}`} className="font-[var(--font-jost)] font-light text-[14px] text-champagne/50 hover:text-gold transition-colors duration-200" /> },
+    { icon: detailIcons.hours, label: 'Hours', content: <p className="font-[var(--font-jost)] font-light text-[14px] text-champagne/50 leading-[1.7]">{tx.hours}</p> },
+  ]
 
   return (
     <section
       id="contact"
       ref={sectionRef}
       className="relative overflow-hidden"
-      style={{ background: '#0f0c09' }}
+      style={{ background: '#0f0c09', zIndex: 1 }}
     >
-      {/* Ghost KT watermark */}
+      {/* Logo watermark — slow drift */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 flex items-center justify-end pointer-events-none select-none overflow-hidden pr-[5vw]"
+        className="absolute inset-0 flex items-center justify-end pointer-events-none select-none overflow-hidden pr-[3vw]"
       >
-        <span
-          className="font-[var(--font-cinzel)] font-bold leading-none text-white/[0.022] select-none"
-          style={{ fontSize: 'clamp(220px,38vw,520px)', letterSpacing: '-0.04em' }}
-        >
-          KT
-        </span>
+        <div className="animate-drift-slow">
+          <svg
+            viewBox="338 146 165 165"
+            className="w-[clamp(280px,45vw,620px)] h-auto opacity-[0.03]"
+            fill="#b8946a"
+          >
+            <path d="M389.12,226.12h.38l32.14-40.49h67.01c-14.14-22.51-39.17-37.48-67.7-37.48-11.31,0-22.07,2.37-31.83,6.61v71.36Z"/>
+            <path d="M469.72,198.87v71.63l-16.95-18.54v-53.09h-22.33l-22.18,28.06,60.49,65.17c19.49-14.57,32.1-37.83,32.1-64.04,0-10.31-1.97-20.15-5.52-29.19h-25.61Z"/>
+            <path d="M389.12,230.26v43.06h-16.95v-108.54c-18.93,14.61-31.14,37.52-31.14,63.28,0,44.14,35.78,79.91,79.91,79.91,12.09,0,23.54-2.7,33.82-7.5l-65.64-70.21Z"/>
+          </svg>
+        </div>
       </div>
 
       {/* Top rule */}
-      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gold/35 to-transparent" />
+      <div className="absolute top-0 inset-x-5 md:inset-x-20 h-px bg-gradient-to-r from-transparent via-gold/25 to-transparent" />
 
-      <div className="relative z-10 px-5 py-16 md:px-[80px] md:py-[110px]">
+      <div className="relative z-10 max-w-[1320px] mx-auto px-5 py-24 md:px-20 md:py-36">
 
-        {/* Section label */}
-        <div className={`${fadeClass()} flex items-center gap-3 mb-14`} style={fadeStyle(0)}>
-          <span className="w-7 h-px bg-gold/55" />
-          <span className="font-[var(--font-cinzel)] text-[9px] tracking-[0.5em] text-gold/65 uppercase">{tx.label}</span>
+        {/* Section header — staggered */}
+        <div {...s(0)}>
+          <div className="flex items-center gap-3.5 mb-10">
+            <span className={`h-px bg-gold/50 transition-all duration-[1.4s] ease-out ${visible ? 'w-8' : 'w-0'}`} />
+            <span className="font-[var(--font-cinzel)] text-[9px] tracking-[0.5em] text-gold/60 uppercase">{tx.label}</span>
+          </div>
         </div>
+        <h2
+          {...s(150)}
+          className={`font-[var(--font-cinzel)] text-champagne uppercase leading-[0.88] mb-16 md:mb-24 ${s(150).className}`}
+          style={{ ...s(150).style, fontSize: 'clamp(32px, 5.5vw, 80px)', letterSpacing: '0.04em' }}
+        >
+          {tx.title1}
+          <em className="block font-[var(--font-cormorant)] italic font-light text-gold not-italic leading-none" style={{ letterSpacing: '0.02em' }}>
+            {tx.title2}
+          </em>
+        </h2>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.45fr] gap-16 lg:gap-28 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.3fr] gap-16 lg:gap-28 items-start">
 
-          {/* ── LEFT ── */}
-          <div className={fadeClass()} style={fadeStyle(100)}>
+          {/* ── LEFT: Contact details — staggered rows ── */}
+          <div>
+            <h3 {...s(250)} className={`font-[var(--font-cinzel)] text-[9px] tracking-[0.5em] text-gold/40 uppercase mb-8 ${s(250).className}`}>
+              {tx.detailsLabel}
+            </h3>
 
-            {/* Editorial title */}
-            <h2
-              className="font-[var(--font-cinzel)] font-normal text-champagne uppercase leading-[0.88] mb-14"
-              style={{ fontSize: 'clamp(38px, 5.5vw, 78px)', letterSpacing: '0.05em' }}
-            >
-              {tx.title1}
-              <em
-                className="block font-[var(--font-cormorant)] not-italic italic text-gold leading-none"
-                style={{ letterSpacing: '0.02em', fontSize: '1.1em' }}
-              >
-                {tx.title2}
-              </em>
-            </h2>
-
-            {/* Contact detail rows */}
-            <div className="border-t border-white/[0.07]">
-
-              {/* Address */}
-              <div className="flex items-start gap-5 py-6 border-b border-white/[0.07] group">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full border border-gold/20 flex items-center justify-center mt-0.5 group-hover:border-gold/50 transition-colors duration-300">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#b8946a" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
-                  </svg>
+            <div className="space-y-7 mb-12">
+              {details.map((d, i) => (
+                <div
+                  key={i}
+                  {...s(320 + i * 100)}
+                  className={`flex items-start gap-4 ${s(320 + i * 100).className}`}
+                >
+                  <span className="mt-0.5 shrink-0 opacity-50">{d.icon}</span>
+                  {d.content}
                 </div>
-                <div>
-                  <p className="font-[var(--font-cinzel)] text-[9px] tracking-[0.35em] text-gold/45 uppercase mb-1.5">{tx.detailsLabel}</p>
-                  <p className="font-[var(--font-jost)] font-light text-[13px] text-champagne/65 leading-[1.75]">{tx.address}</p>
-                </div>
-              </div>
-
-              {/* Phone */}
-              <div className="flex items-start gap-5 py-6 border-b border-white/[0.07] group">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full border border-gold/20 flex items-center justify-center mt-0.5 group-hover:border-gold/50 transition-colors duration-300">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#b8946a" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.99 12 19.79 19.79 0 0 1 1.96 3.35 2 2 0 0 1 3.93 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
-                  </svg>
-                </div>
-                <div>
-                  <p className="font-[var(--font-cinzel)] text-[9px] tracking-[0.35em] text-gold/45 uppercase mb-1.5">Phone</p>
-                  <RevealField
-                    value={tx.phone}
-                    href={`tel:${tx.phone.replace(/\s/g, '')}`}
-                    className="font-[var(--font-jost)] font-light text-[13px] text-champagne/65 hover:text-gold transition-colors duration-200"
-                  />
-                </div>
-              </div>
-
-              {/* Email */}
-              <div className="flex items-start gap-5 py-6 border-b border-white/[0.07] group">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full border border-gold/20 flex items-center justify-center mt-0.5 group-hover:border-gold/50 transition-colors duration-300">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#b8946a" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
-                  </svg>
-                </div>
-                <div>
-                  <p className="font-[var(--font-cinzel)] text-[9px] tracking-[0.35em] text-gold/45 uppercase mb-1.5">Email</p>
-                  <RevealField
-                    value={tx.email}
-                    href={`mailto:${tx.email}`}
-                    className="font-[var(--font-jost)] font-light text-[13px] text-champagne/65 hover:text-gold transition-colors duration-200"
-                  />
-                </div>
-              </div>
-
-              {/* Hours */}
-              <div className="flex items-start gap-5 py-6 group">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full border border-gold/20 flex items-center justify-center mt-0.5 group-hover:border-gold/50 transition-colors duration-300">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#b8946a" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-                  </svg>
-                </div>
-                <div>
-                  <p className="font-[var(--font-cinzel)] text-[9px] tracking-[0.35em] text-gold/45 uppercase mb-1.5">Hours</p>
-                  <p className="font-[var(--font-jost)] font-light text-[13px] text-champagne/65 leading-[1.75]">{tx.hours}</p>
-                </div>
-              </div>
+              ))}
             </div>
 
             {/* Map */}
-            <div className="relative mt-8 overflow-hidden" style={{ height: '200px' }}>
+            <div
+              {...s(750)}
+              className={`relative overflow-hidden ${s(750).className}`}
+              style={{ ...s(750).style, height: '220px' }}
+            >
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2583.0!2d6.1296!3d49.6847!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDnCsDQxJzA1LjAiTiA2wrAwNyc0Ni43IkU!5e0!3m2!1sen!2slu!4v1699000000000"
                 width="100%" height="100%"
-                style={{ border: 0, filter: 'grayscale(100%) brightness(0.4) contrast(1.15) sepia(15%)' }}
+                style={{ border: 0, filter: 'grayscale(100%) brightness(0.55) contrast(1.1) sepia(20%)' }}
                 allowFullScreen loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 title="KT Equestrian location"
               />
-              <div className="absolute inset-0 border border-gold/20 pointer-events-none" />
-              <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-[#0f0c09] to-transparent pointer-events-none" />
+              <div className="absolute inset-0 border border-gold/15 pointer-events-none" />
+              <div className="absolute bottom-0 inset-x-0 h-10 bg-gradient-to-t from-[#0f0c09] to-transparent pointer-events-none" />
             </div>
           </div>
 
-          {/* ── RIGHT: Form ── */}
-          <div className={fadeClass()} style={fadeStyle(200)}>
-
+          {/* ── RIGHT: Form — staggered fields ── */}
+          <div>
             {status === 'sent' ? (
-              <div className="flex flex-col items-start gap-5 py-12 px-8 border border-gold/20">
-                <div className="w-10 h-10 rounded-full border border-gold/40 flex items-center justify-center">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#b8946a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <div {...s(300)} className={`flex flex-col items-start gap-5 py-14 px-8 border border-gold/15 ${s(300).className}`}>
+                <div className="w-11 h-11 rounded-full border border-gold/30 flex items-center justify-center">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#b8946a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="20 6 9 17 4 12"/>
                   </svg>
                 </div>
                 <div>
                   <p className="font-[var(--font-cinzel)] text-[11px] tracking-[0.3em] text-gold uppercase mb-2">Message Sent</p>
-                  <p className="font-[var(--font-jost)] font-light text-[14px] text-champagne/60 leading-[1.8]">{tx.sent}</p>
+                  <p className="font-[var(--font-jost)] font-light text-[14px] text-champagne/55 leading-[1.8]">{tx.sent}</p>
                 </div>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-5">
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <div {...s(300)}>
+                    <FloatField
+                      name="name" required label={tx.namePlaceholder}
+                      value={form.name} onChange={handleChange}
+                    />
+                  </div>
+                  <div {...s(400)}>
+                    <FloatField
+                      name="email" type="email" required label={tx.emailPlaceholder}
+                      value={form.email} onChange={handleChange}
+                    />
+                  </div>
+                </div>
+
+                <div {...s(500)}>
                   <FloatField
-                    name="name" required label={tx.namePlaceholder}
-                    value={form.name} onChange={handleChange}
-                  />
-                  <FloatField
-                    name="email" type="email" required label={tx.emailPlaceholder}
-                    value={form.email} onChange={handleChange}
+                    name="phone" label={tx.phonePlaceholder}
+                    value={form.phone} onChange={handleChange}
                   />
                 </div>
 
-                <FloatField
-                  name="phone" label={tx.phonePlaceholder}
-                  value={form.phone} onChange={handleChange}
-                />
-
-                <FloatField
-                  name="message" required rows={5} label={tx.messagePlaceholder}
-                  value={form.message} onChange={handleChange}
-                />
+                <div {...s(600)}>
+                  <FloatField
+                    name="message" required rows={5} label={tx.messagePlaceholder}
+                    value={form.message} onChange={handleChange}
+                  />
+                </div>
 
                 {status === 'error' && (
-                  <p className="font-[var(--font-jost)] text-[12px] text-champagne/45 border-l-2 border-gold/60 pl-3 py-0.5">
+                  <p className="font-[var(--font-jost)] text-[12px] text-champagne/40 border-l-2 border-gold/50 pl-3 py-0.5">
                     {tx.error}
                   </p>
                 )}
 
-                <div className="pt-3">
-                  <button
-                    type="submit"
-                    disabled={status === 'sending'}
-                    className="btn-shimmer w-full sm:w-auto inline-flex items-center justify-center sm:justify-start gap-5 font-[var(--font-cinzel)] text-[10px] tracking-[0.4em] text-champagne uppercase bg-burgundy border border-burgundy/80 px-10 py-4 transition-all duration-300 hover:bg-burgundy/80 active:scale-[0.97] disabled:opacity-40"
-                  >
-                    {status === 'sending' ? tx.sending : tx.send}
-                    {status !== 'sending' && (
-                      <span className="relative w-[22px] h-px bg-current after:content-[''] after:absolute after:right-0 after:top-[-3px] after:w-[5px] after:h-[5px] after:border-r after:border-t after:border-current after:rotate-45" />
-                    )}
-                  </button>
+                <div {...s(700)}>
+                  <div className="pt-4">
+                    <button
+                      type="submit"
+                      disabled={status === 'sending'}
+                      className="btn-shimmer w-full sm:w-auto inline-flex items-center justify-center sm:justify-start gap-5 font-[var(--font-cinzel)] text-[10px] tracking-[0.4em] text-champagne uppercase bg-burgundy border border-burgundy/80 px-10 py-4 transition-all duration-300 hover:bg-burgundy/80 active:scale-[0.97] disabled:opacity-40 cursor-pointer"
+                    >
+                      {status === 'sending' ? tx.sending : tx.send}
+                      {status !== 'sending' && (
+                        <span className="relative w-[22px] h-px bg-current after:content-[''] after:absolute after:right-0 after:top-[-3px] after:w-[5px] after:h-[5px] after:border-r after:border-t after:border-current after:rotate-45" />
+                      )}
+                    </button>
+                  </div>
                 </div>
-
-                {/* Reassurance note */}
-                <p className="font-[var(--font-jost)] font-light text-[11px] text-white/20 pt-1 tracking-wide">
-                  We respond within 24 hours.
-                </p>
               </form>
             )}
           </div>
         </div>
       </div>
-
-      {/* Bottom rule */}
-      <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gold/35 to-transparent" />
     </section>
   )
 }
