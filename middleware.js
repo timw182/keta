@@ -12,7 +12,7 @@ export async function middleware(request) {
 
   const csp = [
     `default-src 'self'`,
-    `script-src 'self' 'nonce-${nonce}'`,
+    `script-src 'self' 'unsafe-inline'`,
     `style-src 'self' 'unsafe-inline'`,
     `img-src 'self' data: blob: https://*.cdninstagram.com https://*.fbcdn.net`,
     `font-src 'self'`,
