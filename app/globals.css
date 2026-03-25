@@ -17,7 +17,7 @@ html {
 body {
   background: var(--color-champagne);
   color: var(--color-burgundy);
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* Global focus style */
