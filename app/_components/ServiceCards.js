@@ -1,9 +1,13 @@
 'use client'
 
 import Image from 'next/image'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import { useLang } from './LanguageProvider'
 import { t } from '../../lib/translations'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const serviceImages = [
   { src: '/images/DSC_1497in.jpg', pos: 'center 30%' },
@@ -16,7 +20,6 @@ function SlideContent({ card, idx, image, active, lg }) {
   const even = idx % 2 === 0
   const clip = even ? 'inset(0 100% 0 0)' : 'inset(0 0 0 100%)'
 
-  /* Stagger helper → returns { cls, sty } */
   const v = (delay) => ({
     cls: `transition-all duration-[1.1s] ease-out ${active ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`,
     sty: { transitionDelay: active ? `${delay}ms` : '0ms' },
@@ -50,44 +53,30 @@ function SlideContent({ card, idx, image, active, lg }) {
 
       {/* ─ Text ─ */}
       <div className={`${lg ? 'py-8' : 'py-1'} ${lg && !even ? 'order-1 text-right' : ''}`}>
-
-        {/* Number */}
         <span className={`font-[var(--font-cinzel)] tracking-[0.5em] text-gold/35 inline-block ${lg ? 'text-[11px]' : 'text-[10px]'} ${v(200).cls}`} style={v(200).sty}>
           0{idx + 1}
         </span>
-
-        {/* Gold line */}
         <div
           className={`h-px bg-gold/25 mt-4 mb-7 transition-all duration-[1.3s] ease-out ${active ? 'w-8' : 'w-0'} ${lg && !even ? 'ml-auto' : ''}`}
           style={{ transitionDelay: active ? '300ms' : '0ms' }}
         />
-
-        {/* Tag */}
         <span className={`font-[var(--font-cinzel)] tracking-[0.5em] text-gold/50 uppercase inline-block ${lg ? 'text-[9px]' : 'text-[8px]'} ${v(350).cls}`} style={v(350).sty}>
           {card.tag}
         </span>
-
-        {/* Title */}
         <h3
           className={`font-[var(--font-cinzel)] text-champagne uppercase tracking-[0.06em] leading-[1.1] mt-3 mb-6 ${v(420).cls}`}
           style={{ ...v(420).sty, fontSize: lg ? 'clamp(24px, 3.5vw, 48px)' : '22px' }}
         >
           {card.title}
         </h3>
-
-        {/* Description */}
         <p className={`font-[var(--font-jost)] font-light leading-[1.9] text-champagne/40 max-w-md mb-4 ${lg ? 'text-[15px]' : 'text-[14px]'} ${lg && !even ? 'ml-auto' : ''} ${v(500).cls}`} style={v(500).sty}>
           {card.desc}
         </p>
-
-        {/* Extra (desktop only) */}
         {lg && (
           <p className={`font-[var(--font-jost)] font-light text-[14px] leading-[1.85] text-champagne/22 max-w-md mb-10 ${!even ? 'ml-auto' : ''} ${v(580).cls}`} style={v(580).sty}>
             {card.extra}
           </p>
         )}
-
-        {/* CTA */}
         <div className={`${!lg ? 'mt-6' : ''} ${v(lg ? 660 : 580).cls}`} style={v(lg ? 660 : 580).sty}>
           <a
             href="#contact"
@@ -112,6 +101,7 @@ export default function ServiceCards() {
   /* Refs */
   const sectionRef = useRef(null)
   const trackRef = useRef(null)
+  const panelRef = useRef(null)
   const scrubFillRef = useRef(null)
   const scrubDotRef = useRef(null)
   const headerRef = useRef(null)
@@ -138,10 +128,10 @@ export default function ServiceCards() {
   const desktop = mounted && isLg
 
   /* Mark card as permanently revealed */
-  const reveal = (idx) => {
+  const reveal = useCallback((idx) => {
     setActiveIdx(idx)
     setSeen((prev) => (prev.has(idx) ? prev : new Set(prev).add(idx)))
-  }
+  }, [])
 
   /* Header observer — also reveals first card */
   useEffect(() => {
@@ -158,36 +148,44 @@ export default function ServiceCards() {
     )
     obs.observe(el)
     return () => obs.disconnect()
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [reveal])
 
-  /* Desktop: vertical scroll → horizontal translate */
+  /* ── GSAP ScrollTrigger: pin + horizontal scroll ── */
   useEffect(() => {
-    if (!desktop) return
-    const section = sectionRef.current
-    const track = trackRef.current
-    if (!section || !track) return
+    if (!desktop || !sectionRef.current || !trackRef.current || !panelRef.current) return
 
-    function onScroll() {
-      const rect = section.getBoundingClientRect()
-      const range = section.offsetHeight - window.innerHeight
-      if (range <= 0) return
-      const p = Math.max(0, Math.min(1, -rect.top / range))
+    const ctx = gsap.context(() => {
+      const track = trackRef.current
+      const totalScroll = track.scrollWidth - window.innerWidth
 
-      /* Move track */
-      track.style.transform = `translateX(${-p * (N - 1) * window.innerWidth}px)`
+      const tl = gsap.to(track, {
+        x: -totalScroll,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          pin: panelRef.current,
+          scrub: 0.8,
+          end: () => `+=${totalScroll}`,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            const p = self.progress
 
-      /* Scrub indicator (direct DOM — no re-render) */
-      if (scrubFillRef.current) scrubFillRef.current.style.height = `${p * 100}%`
-      if (scrubDotRef.current) scrubDotRef.current.style.top = `${p * 100}%`
+            /* Scrub indicator */
+            if (scrubFillRef.current) scrubFillRef.current.style.height = `${p * 100}%`
+            if (scrubDotRef.current) scrubDotRef.current.style.top = `${p * 100}%`
 
-      /* Reveal active card */
-      reveal(Math.round(p * (N - 1)))
-    }
+            /* Reveal active card */
+            const idx = Math.round(p * (N - 1))
+            reveal(idx)
+          },
+        },
+      })
 
-    window.addEventListener('scroll', onScroll, { passive: true })
-    onScroll()
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [desktop, N]) // eslint-disable-line react-hooks/exhaustive-deps
+      return () => tl.scrollTrigger?.kill()
+    }, sectionRef)
+
+    return () => ctx.revert()
+  }, [desktop, N, reveal])
 
   /* Mobile: snap-scroll position tracking */
   useEffect(() => {
@@ -203,7 +201,7 @@ export default function ServiceCards() {
 
     el.addEventListener('scroll', onScroll, { passive: true })
     return () => el.removeEventListener('scroll', onScroll)
-  }, [desktop, mounted, N]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [desktop, mounted, N, reveal])
 
   if (N === 0) return null
 
@@ -212,23 +210,24 @@ export default function ServiceCards() {
       ref={sectionRef}
       id="services"
       className="relative bg-[#0f0c09]"
-      style={{ zIndex: 1, height: desktop ? `${N * 100}vh` : 'auto' }}
+      style={{ zIndex: 1 }}
     >
       {/* Top rule */}
       <div className="absolute top-0 inset-x-5 md:inset-x-20 h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
 
-      {/* Sticky wrapper (desktop) / normal flow (mobile) */}
-      <div className={desktop ? 'sticky top-0 h-screen flex flex-col' : 'py-20 md:py-32'}>
+      {/* Panel — GSAP pins this on desktop */}
+      <div
+        ref={panelRef}
+        className={desktop ? 'h-screen flex flex-col overflow-hidden' : 'py-20 md:py-32'}
+      >
 
         {/* ── Section header ──────────────────────── */}
         <div ref={headerRef} className={`max-w-[1320px] mx-auto px-5 md:px-20 ${desktop ? 'pt-10 pb-4' : 'mb-12'}`}>
-          {/* Label */}
           <div className={`flex items-center gap-3.5 mb-8 transition-all duration-[1s] ease-out ${headerVis ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
             <span className={`h-px bg-gold/50 transition-all duration-[1.4s] ease-out ${headerVis ? 'w-8' : 'w-0'}`} />
             <span className="font-[var(--font-cinzel)] text-[9px] tracking-[0.5em] text-gold/60 uppercase">{tx.label}</span>
           </div>
 
-          {/* Title + counter */}
           <div className="flex items-end justify-between">
             <h2
               className={`font-[var(--font-cinzel)] text-champagne uppercase leading-[0.88] transition-all duration-[1.4s] ease-out ${headerVis ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
@@ -247,7 +246,6 @@ export default function ServiceCards() {
               </em>
             </h2>
 
-            {/* Desktop counter */}
             {desktop && (
               <div
                 className={`font-[var(--font-cinzel)] tracking-[0.3em] transition-opacity duration-700 ${headerVis ? 'opacity-100' : 'opacity-0'}`}
@@ -263,11 +261,10 @@ export default function ServiceCards() {
 
         {/* ── Desktop: horizontal track ───────────── */}
         {desktop && (
-          <div className="flex-1 relative overflow-hidden">
+          <div className="flex-1 relative">
             <div
               ref={trackRef}
               className="flex h-full will-change-transform"
-              style={{ width: `${N * 100}vw` }}
             >
               {cards.map((card, i) => (
                 <div key={i} className="w-screen h-full flex-shrink-0 flex items-center px-20">
