@@ -30,7 +30,7 @@ body {
 .input-field {
   width: 100%;
   background: transparent;
-  border-bottom: 1px solid rgba(107,20,40,0.2);
+  border-bottom: 1px solid rgba(107,20,40,0.35);
   padding: 0.75rem 0;
   font-family: var(--font-jost);
   font-weight: 300;
@@ -38,7 +38,7 @@ body {
   color: var(--color-burgundy);
   transition: border-color 0.2s;
 }
-.input-field::placeholder { color: rgba(107,20,40,0.35); }
+.input-field::placeholder { color: rgba(107,20,40,0.55); }
 .input-field:focus { outline: none; border-bottom-color: var(--color-gold); }
 
 @keyframes fadeDown {
@@ -178,6 +178,10 @@ body::after {
 .animate-drift-slow {
   animation: driftSlow 20s ease-in-out infinite;
 }
+
+/* Hide scrollbar — used on mobile snap-scroll containers */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
 
 /* Respect reduced-motion preferences */
 @media (prefers-reduced-motion: reduce) {
