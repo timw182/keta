@@ -86,9 +86,21 @@ export default function Footer() {
           <p className="font-[var(--font-jost)] font-light text-[11px] text-champagne/15 tracking-wide">
             &copy; {new Date().getFullYear()} KT Equestrian. All rights reserved.
           </p>
-          <p className="font-[var(--font-jost)] font-light text-[11px] text-champagne/10 tracking-wide">
-            Steinsel, Luxembourg
-          </p>
+          <div className="flex items-center gap-4">
+            <Link
+              href="/impressum"
+              className="font-[var(--font-jost)] font-light text-[11px] text-champagne/15 hover:text-champagne/40 transition-colors duration-200 tracking-wide"
+            >
+              {tx.footer.impressum}
+            </Link>
+            <span className="text-champagne/10">·</span>
+            <Link
+              href="/privacy"
+              className="font-[var(--font-jost)] font-light text-[11px] text-champagne/15 hover:text-champagne/40 transition-colors duration-200 tracking-wide"
+            >
+              {tx.footer.privacy}
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

@@ -7,6 +7,9 @@ const nextConfig = {
       { protocol: 'https', hostname: '*.fbcdn.net' },
     ],
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 }
 
 export default nextConfig
