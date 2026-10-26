@@ -49,6 +49,9 @@ export function ArrowLink({ href, children, dark = false, className = '' }) {
       <ArrowUpRight size={20} strokeWidth={1.75} className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden="true" />
     </>
   )
+  if (href.startsWith('http')) {
+    return <a href={href} target="_blank" rel="noopener noreferrer" className={cls}>{inner}</a>
+  }
   return href.startsWith('#')
     ? <a href={href} className={cls}>{inner}</a>
     : <Link href={href} className={cls}>{inner}</Link>

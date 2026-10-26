@@ -8,6 +8,7 @@ import Navbar from './_components/Navbar'
 import ContactSection from './_components/ContactSection'
 import Footer from './_components/Footer'
 import Contours from './_components/Contours'
+import InstagramSection from './_components/InstagramSection'
 import { Eyebrow, CtaButton, ArrowLink } from './_components/ui'
 import { useEffect, useRef, useState } from 'react'
 import { useLang } from './_components/LanguageProvider'
@@ -328,6 +329,7 @@ export default function Home() {
       <ServiceCards />
       <BookingCTA />
       <ReviewCarousel />
+      <InstagramSection />
       <ContactSection />
       <Footer />
     </main>
