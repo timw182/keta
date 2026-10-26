@@ -4,13 +4,13 @@ import Image from 'next/image'
 import Navbar from '../_components/Navbar'
 import Footer from '../_components/Footer'
 import Contours from '../_components/Contours'
-import { Eyebrow, SunButton, ArrowLink } from '../_components/ui'
+import { Eyebrow, CtaButton, ArrowLink } from '../_components/ui'
 import { useLang } from '../_components/LanguageProvider'
 import { t } from '../../lib/translations'
 
 const PLACE_STYLES = {
   '1': 'notch-tag bg-lime text-ink',
-  '2': 'bg-sun text-ink',
+  '2': 'bg-burgundy text-cream',
   '3': 'border border-cream/30 text-cream/80',
 }
 
@@ -38,12 +38,13 @@ export default function AboutPage() {
             </div>
 
             <h1
-              className="font-display text-ink leading-[0.95] tracking-[-0.02em] mt-6 opacity-0 animate-fade-up"
-              style={{ fontSize: 'clamp(64px, 10vw, 150px)', animationDelay: '0.6s' }}
+              className="font-display text-ink uppercase leading-[1] tracking-[0.04em] mt-6 opacity-0 animate-fade-up"
+              style={{ fontSize: 'clamp(52px, 7vw, 108px)', animationDelay: '0.6s' }}
             >
               {tx.heroTitle1}
-              <br />
-              {tx.heroTitle2}
+              <em className="block font-accent italic font-normal normal-case tracking-normal text-[1.2em] leading-[0.95] text-burgundy">
+                {tx.heroTitle2}
+              </em>
             </h1>
 
             <p className="font-sans font-medium text-[13px] tracking-[0.18em] text-ink/70 uppercase mt-8 opacity-0 animate-fade-up" style={{ animationDelay: '0.8s' }}>
@@ -52,7 +53,7 @@ export default function AboutPage() {
           </div>
 
           <div className="relative lg:col-span-6 opacity-0 animate-fade-up" style={{ animationDelay: '0.6s' }}>
-            <div className="absolute top-8 left-8 -right-4 -bottom-4 md:-right-6 md:-bottom-6 bg-sun" aria-hidden="true" />
+            <div className="absolute top-8 left-8 -right-4 -bottom-4 md:-right-6 md:-bottom-6 bg-burgundy" aria-hidden="true" />
             <div className="relative aspect-[4/5] overflow-hidden mr-4 md:mr-6">
               <Image
                 src="/images/kelly-with-horse.jpg"
@@ -75,8 +76,8 @@ export default function AboutPage() {
           <Eyebrow className="mb-10">{tx.storyLabel}</Eyebrow>
 
           <blockquote
-            className="font-display text-ink leading-[1.15] tracking-[-0.01em] mb-14 max-w-[1000px]"
-            style={{ fontSize: 'clamp(28px, 3.8vw, 52px)' }}
+            className="font-accent italic text-ink leading-[1.2] mb-14 max-w-[1000px]"
+            style={{ fontSize: 'clamp(30px, 4vw, 56px)' }}
           >
             &ldquo;{tx.storyP1}&rdquo;
           </blockquote>
@@ -88,20 +89,20 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── STATS — big numbers on sun band ── */}
-      <section className="relative overflow-hidden bg-sun">
-        <Contours className="text-ink/[0.12]" />
-        <div className="relative max-w-[1320px] mx-auto px-5 md:px-12 py-14 md:py-20 grid grid-cols-3 divide-x divide-ink/20">
+      {/* ── STATS — big numbers on burgundy band ── */}
+      <section className="relative overflow-hidden bg-burgundy">
+        <Contours className="text-cream/[0.1]" />
+        <div className="relative max-w-[1320px] mx-auto px-5 md:px-12 py-14 md:py-20 grid grid-cols-3 divide-x divide-cream/20">
           {[
             { num: '10+', label: 'Years Experience' },
             { num: '10', label: 'Competition Titles' },
             { num: '2015', label: 'Year Founded' },
           ].map((s, i) => (
             <div key={i} className="text-center px-4 md:px-10 flex flex-col items-center gap-3">
-              <span className="font-display text-ink leading-none" style={{ fontSize: 'clamp(40px, 7vw, 96px)' }}>
+              <span className="font-display text-cream leading-none" style={{ fontSize: 'clamp(34px, 6vw, 84px)' }}>
                 {s.num}
               </span>
-              <span className="font-sans font-semibold text-[10px] md:text-[12px] tracking-[0.18em] text-ink/75 uppercase">
+              <span className="font-sans font-semibold text-[10px] md:text-[12px] tracking-[0.18em] text-cream/75 uppercase">
                 {s.label}
               </span>
             </div>
@@ -112,8 +113,9 @@ export default function AboutPage() {
       {/* ── FORMATION — timeline ── */}
       <section className="max-w-[1320px] mx-auto px-5 md:px-12 py-20 md:py-28">
         <Eyebrow className="mb-6">{tx.educationLabel}</Eyebrow>
-        <h2 className="font-display text-ink leading-[1] tracking-[-0.01em] mb-14" style={{ fontSize: 'clamp(36px, 5vw, 72px)' }}>
-          {tx.educationTitle1} {tx.educationTitle2}
+        <h2 className="font-display text-ink uppercase leading-[1.05] tracking-[0.04em] mb-14" style={{ fontSize: 'clamp(30px, 4.2vw, 60px)' }}>
+          {tx.educationTitle1}{' '}
+          <em className="font-accent italic font-normal normal-case tracking-normal text-[1.2em] text-burgundy">{tx.educationTitle2}</em>
         </h2>
 
         <div className="border-t border-ink/15">
@@ -122,10 +124,10 @@ export default function AboutPage() {
               key={i}
               className="group grid grid-cols-[72px_1fr] md:grid-cols-[160px_1fr_1.2fr] gap-x-6 md:gap-x-10 gap-y-2 py-7 border-b border-ink/15"
             >
-              <span className="font-display text-ink/40 group-hover:text-ink transition-colors duration-300 leading-none" style={{ fontSize: 'clamp(24px, 2.6vw, 36px)' }}>
+              <span className="font-display text-ink/40 group-hover:text-burgundy transition-colors duration-300 leading-none" style={{ fontSize: 'clamp(24px, 2.6vw, 36px)' }}>
                 {item.year}
               </span>
-              <h3 className="font-display text-[22px] md:text-[26px] leading-[1.15] text-ink">
+              <h3 className="font-display text-[16px] md:text-[18px] uppercase tracking-[0.06em] leading-[1.35] text-ink">
                 {item.title}
               </h3>
               <p className="col-start-2 md:col-start-auto font-sans text-[15px] leading-[1.75] text-ink/70">
@@ -140,8 +142,9 @@ export default function AboutPage() {
       <section className="bg-ink">
         <div className="max-w-[1320px] mx-auto px-5 md:px-12 py-20 md:py-28">
           <Eyebrow dark className="mb-6">{tx.tournamentsLabel}</Eyebrow>
-          <h2 className="font-display text-cream leading-[1] tracking-[-0.01em] mb-14" style={{ fontSize: 'clamp(36px, 5vw, 72px)' }}>
-            {tx.tournamentsTitle1} <span className="text-sun">{tx.tournamentsTitle2}</span>
+          <h2 className="font-display text-cream uppercase leading-[1.05] tracking-[0.04em] mb-14" style={{ fontSize: 'clamp(30px, 4.2vw, 60px)' }}>
+            {tx.tournamentsTitle1}{' '}
+            <em className="font-accent italic font-normal normal-case tracking-normal text-[1.2em] text-blush">{tx.tournamentsTitle2}</em>
           </h2>
 
           <div className="border-t border-cream/10">
@@ -150,7 +153,7 @@ export default function AboutPage() {
                 key={i}
                 className="group grid grid-cols-[52px_1fr_auto] md:grid-cols-[96px_1fr_160px] items-center gap-4 md:gap-8 py-5 border-b border-cream/10"
               >
-                <span className="font-display text-[18px] md:text-[22px] text-cream/40 group-hover:text-sun transition-colors duration-200">
+                <span className="font-display text-[18px] md:text-[22px] text-cream/40 group-hover:text-blush transition-colors duration-200">
                   {item.year}
                 </span>
 
@@ -173,7 +176,7 @@ export default function AboutPage() {
           </div>
 
           <div className="mt-10 flex items-center gap-5">
-            <span className="font-display text-[56px] md:text-[72px] text-sun leading-none">
+            <span className="font-display text-[56px] md:text-[72px] text-blush leading-none">
               {tx.tournaments.filter(t => t.result.startsWith('1')).length}
             </span>
             <div>
@@ -192,15 +195,15 @@ export default function AboutPage() {
             <Eyebrow className="mb-6">
               {lang === 'FR' ? 'Travailler Avec Kelly' : lang === 'LB' ? 'Mat Kelly Schaffen' : 'Work With Kelly'}
             </Eyebrow>
-            <p className="font-display text-ink leading-[1.05] tracking-[-0.01em] whitespace-pre-line" style={{ fontSize: 'clamp(36px, 5vw, 72px)' }}>
+            <p className="font-accent italic text-ink leading-[1.05] whitespace-pre-line" style={{ fontSize: 'clamp(40px, 5.6vw, 80px)' }}>
               {lang === 'FR' ? 'Prêt à commencer\nvotre voyage ?' : lang === 'LB' ? 'Prett fir Äre Wee\nunzefänken?' : 'Ready to begin\nyour journey?'}
             </p>
           </div>
 
           <div className="flex flex-col sm:flex-row sm:items-center gap-6 sm:gap-10">
-            <SunButton href="/booking">
+            <CtaButton href="/booking">
               {lang === 'FR' ? 'Réserver une Séance' : lang === 'LB' ? 'Eng Séance Buchen' : 'Book a Session'}
-            </SunButton>
+            </CtaButton>
             <ArrowLink href="/contact">
               {lang === 'FR' ? 'Nous Contacter' : lang === 'LB' ? 'Kontakt' : 'Get in Touch'}
             </ArrowLink>

@@ -8,7 +8,7 @@ import Navbar from './_components/Navbar'
 import ContactSection from './_components/ContactSection'
 import Footer from './_components/Footer'
 import Contours from './_components/Contours'
-import { Eyebrow, SunButton, ArrowLink } from './_components/ui'
+import { Eyebrow, CtaButton, ArrowLink } from './_components/ui'
 import { useEffect, useRef, useState } from 'react'
 import { useLang } from './_components/LanguageProvider'
 import { t } from '../lib/translations'
@@ -59,23 +59,24 @@ function BookingCTA() {
   }, [])
 
   return (
-    <section ref={ref} className="relative overflow-hidden bg-sun py-20 md:py-28">
-      <Contours className="text-ink/[0.12]" />
+    <section ref={ref} className="relative overflow-hidden bg-burgundy py-20 md:py-28">
+      <Contours className="text-cream/[0.1]" />
 
       <div className={`relative max-w-[1320px] mx-auto px-5 md:px-12 flex flex-col md:flex-row md:items-end md:justify-between gap-10 transition-all duration-[1.2s] ease-out ${vis ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
         <div className="max-w-2xl">
-          <Eyebrow className="!text-ink mb-6">{tx.label}</Eyebrow>
-          <h2 className="font-display text-ink leading-[0.98] tracking-[-0.01em]" style={{ fontSize: 'clamp(40px, 6vw, 88px)' }}>
-            {tx.title1} {tx.title2}
+          <Eyebrow dark className="mb-6">{tx.label}</Eyebrow>
+          <h2 className="font-display text-cream uppercase leading-[1] tracking-[0.04em]" style={{ fontSize: 'clamp(34px, 5vw, 72px)' }}>
+            {tx.title1}{' '}
+            <em className="font-accent italic font-normal normal-case tracking-normal text-[1.15em]">{tx.title2}</em>
           </h2>
-          <p className="font-sans text-[16px] text-ink/75 leading-[1.7] mt-5 max-w-md">
+          <p className="font-sans text-[16px] text-cream/75 leading-[1.7] mt-5 max-w-md">
             {tx.chooseType}
           </p>
         </div>
 
-        <SunButton href="/booking" variant="ink" className="self-start md:self-auto">
+        <CtaButton href="/booking" variant="cream" className="self-start md:self-auto">
           {tx.title1} {tx.title2}
-        </SunButton>
+        </CtaButton>
       </div>
     </section>
   )
@@ -152,12 +153,13 @@ export default function Home() {
             <div className="lg:col-span-5 lg:pt-6">
               <h1
                 {...rise(0.5)}
-                className={`font-display text-ink leading-[1.02] tracking-[-0.015em] ${rise(0.5).className}`}
-                style={{ ...rise(0.5).style, fontSize: 'clamp(46px, 6vw, 86px)' }}
+                className={`font-display text-ink uppercase leading-[1] tracking-[0.03em] ${rise(0.5).className}`}
+                style={{ ...rise(0.5).style, fontSize: 'clamp(38px, 4.4vw, 64px)' }}
               >
                 {tx.hero.title1}
-                <br />
-                {tx.hero.title2}
+                <em className="block font-accent italic font-normal normal-case tracking-normal text-burgundy text-[1.3em] leading-[0.95] mt-1">
+                  {tx.hero.title2}
+                </em>
               </h1>
 
               <p {...rise(0.7)} className={`font-sans text-[16px] leading-[1.75] text-ink/80 mt-7 max-w-[340px] ${rise(0.7).className}`}>
@@ -165,7 +167,7 @@ export default function Home() {
               </p>
 
               <div {...rise(0.9)} className={`mt-10 ${rise(0.9).className}`}>
-                <SunButton href="#contact">{tx.hero.cta1}</SunButton>
+                <CtaButton href="#contact">{tx.hero.cta1}</CtaButton>
               </div>
             </div>
 
@@ -188,7 +190,7 @@ export default function Home() {
 
               <Link
                 href="/booking"
-                className="absolute -bottom-10 right-8 md:right-auto md:left-[38%] z-10 w-[118px] h-[118px] md:w-[138px] md:h-[138px] bg-ink text-cream flex items-center justify-center text-center px-4 font-sans font-semibold text-[12px] md:text-[13px] tracking-[0.1em] uppercase leading-[1.5] transition-colors duration-300 hover:bg-sun hover:text-ink"
+                className="absolute -bottom-10 right-8 md:right-auto md:left-[38%] z-10 w-[118px] h-[118px] md:w-[138px] md:h-[138px] bg-burgundy text-cream flex items-center justify-center text-center px-4 font-sans font-semibold text-[12px] md:text-[13px] tracking-[0.1em] uppercase leading-[1.5] transition-colors duration-300 hover:bg-ink"
               >
                 {tx.contact.bookingNavLabel}
               </Link>
@@ -250,8 +252,8 @@ export default function Home() {
             <div>
               <blockquote
                 {...stagger(200)}
-                className={`font-display text-ink leading-[1.15] tracking-[-0.01em] mb-12 ${stagger(200).className}`}
-                style={{ ...stagger(200).style, fontSize: 'clamp(26px, 3.4vw, 46px)' }}
+                className={`font-accent italic text-ink leading-[1.2] mb-12 ${stagger(200).className}`}
+                style={{ ...stagger(200).style, fontSize: 'clamp(28px, 3.6vw, 50px)' }}
               >
                 &ldquo;{tx.about.bio}&rdquo;
               </blockquote>
@@ -282,7 +284,7 @@ export default function Home() {
                   { end: 2015, suffix: '', label: tx.about.established, delay: 1100 },
                 ].map((s, i) => (
                   <div key={i} className={`py-6 ${i > 0 ? 'pl-6 border-l border-ink/15' : ''}`}>
-                    <span className="font-display text-ink text-[clamp(30px,3.4vw,46px)] leading-none tabular-nums">
+                    <span className="font-display text-burgundy text-[clamp(28px,3vw,42px)] leading-none tabular-nums">
                       <CountUp end={s.end} suffix={s.suffix} visible={aboutVisible} delay={s.delay} />
                     </span>
                     <span className="block font-sans font-medium text-[11px] tracking-[0.18em] text-ink/55 uppercase mt-2">{s.label}</span>
@@ -295,10 +297,10 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Right: Portrait with clip-path reveal + offset sun block */}
+            {/* Right: Portrait with clip-path reveal + offset burgundy block */}
             <div className="relative mt-2 lg:mt-0 mr-4 md:mr-6">
               <div
-                className={`absolute top-6 left-6 -right-4 -bottom-4 md:top-8 md:left-8 md:-right-6 md:-bottom-6 bg-sun transition-opacity duration-[1s] ease-out ${aboutVisible ? 'opacity-100' : 'opacity-0'}`}
+                className={`absolute top-6 left-6 -right-4 -bottom-4 md:top-8 md:left-8 md:-right-6 md:-bottom-6 bg-burgundy transition-opacity duration-[1s] ease-out ${aboutVisible ? 'opacity-100' : 'opacity-0'}`}
                 style={{ transitionDelay: aboutVisible ? '900ms' : '0ms' }}
                 aria-hidden="true"
               />

@@ -23,8 +23,8 @@ export default function PrivacyPage() {
             <Eyebrow>{tx.label}</Eyebrow>
           </div>
           <h1
-            className="font-display text-ink leading-[0.95] tracking-[-0.02em] mt-6 opacity-0 animate-fade-up"
-            style={{ fontSize: 'clamp(52px, 9vw, 120px)', animationDelay: '0.5s' }}
+            className="font-display text-ink uppercase leading-[1] tracking-[0.04em] mt-6 opacity-0 animate-fade-up"
+            style={{ fontSize: 'clamp(40px, 6.5vw, 96px)', animationDelay: '0.5s' }}
           >
             {tx.title}
           </h1>
@@ -38,7 +38,7 @@ export default function PrivacyPage() {
         <div className="max-w-[760px] space-y-12">
           {tx.sections.map((section, i) => (
             <div key={i}>
-              <h2 className="font-display text-[26px] md:text-[30px] leading-[1.15] text-ink mb-4">
+              <h2 className="font-display text-[18px] md:text-[20px] uppercase tracking-[0.08em] leading-[1.3] text-burgundy mb-4">
                 {section.heading}
               </h2>
               <div className="font-sans text-[16px] text-ink/75 leading-[1.85] space-y-3">

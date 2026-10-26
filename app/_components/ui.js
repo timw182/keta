@@ -1,23 +1,24 @@
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
 
-/* Small uppercase section label with a sun dot */
+/* Small uppercase section label with a burgundy dot */
 export function Eyebrow({ children, dark = false, className = '' }) {
   return (
     <span
       className={`inline-flex items-center gap-2.5 font-sans font-medium text-[12px] tracking-[0.18em] uppercase ${dark ? 'text-cream/70' : 'text-ink/70'} ${className}`}
     >
-      <span className="w-2 h-2 rounded-full bg-sun" aria-hidden="true" />
+      <span className={`w-2 h-2 rounded-full ${dark ? 'bg-blush' : 'bg-burgundy'}`} aria-hidden="true" />
       {children}
     </span>
   )
 }
 
-/* Primary call-to-action: sun-yellow block with divider and arrow */
-export function SunButton({ href, children, className = '', variant = 'sun', ...rest }) {
+/* Primary call-to-action: solid block with divider and arrow */
+export function CtaButton({ href, children, className = '', variant = 'burgundy', ...rest }) {
   const colors = {
-    sun: 'bg-sun text-ink hover:bg-ink hover:text-cream',
-    ink: 'bg-ink text-cream hover:bg-sun hover:text-ink',
+    burgundy: 'bg-burgundy text-cream hover:bg-ink',
+    ink: 'bg-ink text-cream hover:bg-burgundy',
+    cream: 'bg-cream text-burgundy hover:bg-ink hover:text-cream',
   }[variant]
 
   const cls = `group inline-flex items-center justify-center gap-4 font-sans font-semibold text-[13px] tracking-[0.06em] uppercase pl-6 pr-5 py-4 transition-colors duration-300 active:scale-[0.98] disabled:opacity-40 cursor-pointer ${colors} ${className}`

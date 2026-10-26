@@ -49,12 +49,12 @@ function SlideContent({ card, idx, image, active, lg }) {
           />
         </div>
         <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent" />
-        <div className="absolute inset-0 bg-sun/0 group-hover:bg-sun/10 transition-colors duration-700" />
+        <div className="absolute inset-0 bg-burgundy/0 group-hover:bg-burgundy/20 transition-colors duration-700" />
       </div>
 
       {/* ─ Text ─ */}
       <div className={`${lg ? 'py-8' : 'py-1'} ${lg && !even ? 'order-1 text-right' : ''}`}>
-        <span className={`font-display text-sun inline-block leading-none ${lg ? 'text-[44px]' : 'text-[34px]'} ${v(200).cls}`} style={v(200).sty}>
+        <span className={`font-display text-blush inline-block leading-none ${lg ? 'text-[44px]' : 'text-[34px]'} ${v(200).cls}`} style={v(200).sty}>
           0{idx + 1}
         </span>
         <div
@@ -65,8 +65,8 @@ function SlideContent({ card, idx, image, active, lg }) {
           {card.tag}
         </span>
         <h3
-          className={`font-display text-cream tracking-[-0.01em] leading-[1.05] mt-5 mb-6 ${v(420).cls}`}
-          style={{ ...v(420).sty, fontSize: lg ? 'clamp(34px, 4vw, 60px)' : '30px' }}
+          className={`font-display text-cream uppercase tracking-[0.04em] leading-[1.1] mt-5 mb-6 ${v(420).cls}`}
+          style={{ ...v(420).sty, fontSize: lg ? 'clamp(28px, 3.2vw, 46px)' : '24px' }}
         >
           {card.title}
         </h3>
@@ -81,7 +81,7 @@ function SlideContent({ card, idx, image, active, lg }) {
         <div className={`${!lg ? 'mt-6' : ''} ${v(lg ? 660 : 580).cls}`} style={v(lg ? 660 : 580).sty}>
           <a
             href="#contact"
-            className="group/link inline-flex items-center gap-4 bg-sun text-ink font-sans font-semibold text-[13px] tracking-[0.06em] uppercase pl-6 pr-5 py-3.5 hover:bg-cream transition-colors duration-300"
+            className="group/link inline-flex items-center gap-4 bg-burgundy text-cream font-sans font-semibold text-[13px] tracking-[0.06em] uppercase pl-6 pr-5 py-3.5 hover:bg-cream hover:text-burgundy transition-colors duration-300"
           >
             {card.btn}
             <span className="w-px h-4 bg-current opacity-40" aria-hidden="true" />
@@ -227,7 +227,7 @@ export default function ServiceCards() {
 
           <div className="flex items-end justify-between">
             <h2
-              className={`font-display text-cream leading-[0.95] tracking-[-0.01em] transition-all duration-[1.4s] ease-out ${headerVis ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
+              className={`font-display text-cream uppercase leading-[1] tracking-[0.04em] transition-all duration-[1.4s] ease-out ${headerVis ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
               style={{
                 fontSize: desktop ? 'clamp(40px, 4.8vw, 76px)' : 'clamp(40px, 9vw, 100px)',
                 transitionDelay: headerVis ? '200ms' : '0ms',
@@ -235,7 +235,7 @@ export default function ServiceCards() {
             >
               {tx.title1}{' '}
               <em
-                className={`inline font-display not-italic text-sun leading-none transition-all duration-[1.4s] ease-out ${headerVis ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                className={`inline font-accent italic font-normal normal-case tracking-normal text-[1.2em] text-blush leading-none transition-all duration-[1.4s] ease-out ${headerVis ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
                 style={{ transitionDelay: headerVis ? '350ms' : '0ms' }}
               >
                 {tx.title2}
@@ -247,7 +247,7 @@ export default function ServiceCards() {
                 className={`font-display transition-opacity duration-700 ${headerVis ? 'opacity-100' : 'opacity-0'}`}
                 style={{ transitionDelay: headerVis ? '600ms' : '0ms' }}
               >
-                <span className="text-sun text-[32px] tabular-nums">0{Math.max(0, activeIdx) + 1}</span>
+                <span className="text-blush text-[28px] tabular-nums">0{Math.max(0, activeIdx) + 1}</span>
                 <span className="text-cream/30 mx-2 text-[20px]">/</span>
                 <span className="text-cream/50 text-[20px]">0{N}</span>
               </div>
@@ -305,7 +305,7 @@ export default function ServiceCards() {
                   })
                 }
               }}
-              className={`h-[3px] rounded-full transition-all duration-700 ${activeIdx === i ? 'w-10 bg-sun' : 'w-5 bg-cream/20 hover:bg-cream/40'}`}
+              className={`h-[3px] rounded-full transition-all duration-700 ${activeIdx === i ? 'w-10 bg-blush' : 'w-5 bg-cream/20 hover:bg-cream/40'}`}
             />
           ))}
           {!desktop && (
@@ -321,8 +321,8 @@ export default function ServiceCards() {
         {desktop && (
           <div className="absolute right-10 top-1/2 -translate-y-1/2 h-[35vh] pointer-events-none">
             <div className="relative w-px h-full bg-cream/10">
-              <div ref={scrubFillRef} className="absolute top-0 w-px bg-sun" style={{ height: 0 }} />
-              <div ref={scrubDotRef} className="absolute left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-sun" style={{ top: 0 }} />
+              <div ref={scrubFillRef} className="absolute top-0 w-px bg-blush" style={{ height: 0 }} />
+              <div ref={scrubDotRef} className="absolute left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-blush" style={{ top: 0 }} />
             </div>
           </div>
         )}

@@ -1,12 +1,19 @@
-import { Gloock, Jost } from 'next/font/google'
+import { Cinzel, Cormorant_Garamond, Jost } from 'next/font/google'
 import './globals.css'
 import { LanguageProvider } from './_components/LanguageProvider'
 import LoadingScreen from './_components/LoadingScreen'
 
-const display = Gloock({
+const display = Cinzel({
   subsets: ['latin'],
-  weight: '400',
+  weight: ['400', '600'],
   variable: '--ff-display',
+})
+
+const accent = Cormorant_Garamond({
+  subsets: ['latin'],
+  weight: ['300', '400', '600'],
+  style: ['normal', 'italic'],
+  variable: '--ff-accent',
 })
 
 const sans = Jost({
@@ -23,7 +30,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${display.variable} ${sans.variable} font-sans antialiased`}>
+      <body className={`${display.variable} ${accent.variable} ${sans.variable} font-sans antialiased`}>
         <LanguageProvider>
           <LoadingScreen>{children}</LoadingScreen>
         </LanguageProvider>

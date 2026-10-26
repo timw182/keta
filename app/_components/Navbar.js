@@ -53,7 +53,7 @@ export default function Navbar() {
             {/* Left: logo */}
             <Link href="/" className="flex items-center gap-2.5 opacity-0 animate-fade-down" style={{ animationDelay: '0.2s' }}>
               <Image src="/picture-repo/logo/logo-svg.svg" alt="" width={30} height={30} className="brightness-0" />
-              <span className="font-display text-[22px] md:text-[24px] leading-none text-ink tracking-[-0.01em]">
+              <span className="font-display text-[15px] md:text-[17px] leading-none text-ink uppercase tracking-[0.2em]">
                 KT Equestrian
               </span>
             </Link>
@@ -64,7 +64,7 @@ export default function Navbar() {
                 <li key={l.href}>
                   <Link
                     href={l.href}
-                    className="relative font-sans font-medium text-[13px] tracking-[0.08em] text-ink uppercase after:absolute after:left-0 after:-bottom-1 after:h-[1.5px] after:w-0 after:bg-ink after:transition-all after:duration-300 hover:after:w-full"
+                    className="relative font-sans font-medium text-[13px] tracking-[0.08em] text-ink uppercase after:absolute after:left-0 after:-bottom-1 after:h-[1.5px] after:w-0 after:bg-burgundy after:transition-all after:duration-300 hover:after:w-full"
                   >
                     {l.label}
                   </Link>
@@ -85,7 +85,7 @@ export default function Navbar() {
                 <span className="font-sans font-medium text-[13px] tracking-[0.08em] text-ink uppercase">
                   {tx.contact.navLabel}
                 </span>
-                <span className="w-11 h-11 rounded-full bg-white shadow-[0_2px_10px_rgba(23,22,19,0.08)] flex items-center justify-center text-ink transition-all duration-300 group-hover:bg-ink group-hover:text-cream">
+                <span className="w-11 h-11 rounded-full bg-white shadow-[0_2px_10px_rgba(23,22,19,0.08)] flex items-center justify-center text-ink transition-all duration-300 group-hover:bg-burgundy group-hover:text-cream">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                     <path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm9 7.2L20 7H4l8 5.2z" />
                   </svg>
@@ -139,7 +139,7 @@ export default function Navbar() {
       >
         <div className="px-8 pt-8 pb-6 border-b border-ink/10 flex items-center gap-2.5">
           <Image src="/picture-repo/logo/logo-svg.svg" alt="" width={24} height={24} className="brightness-0" />
-          <span className="font-display text-[20px] text-ink">KT Equestrian</span>
+          <span className="font-display text-[14px] text-ink uppercase tracking-[0.2em]">KT Equestrian</span>
         </div>
 
         <nav className="flex-1 flex flex-col justify-center px-8">
@@ -150,7 +150,7 @@ export default function Navbar() {
               onClick={() => setMenuOpen(false)}
               className="group flex items-center justify-between py-4 border-b border-ink/10"
             >
-              <span className="font-display text-[30px] leading-none text-ink">{item.label}</span>
+              <span className="font-display text-[19px] leading-none text-ink uppercase tracking-[0.08em] group-hover:text-burgundy transition-colors">{item.label}</span>
               <span className="text-ink/40 group-hover:text-ink transition-colors" aria-hidden="true">↗</span>
             </Link>
           ))}

@@ -4,7 +4,7 @@ import { useState, useMemo, useRef, useEffect } from 'react'
 import { useLang } from './LanguageProvider'
 import { t } from '../../lib/translations'
 import Contours from './Contours'
-import { Eyebrow, SunButton } from './ui'
+import { Eyebrow, CtaButton } from './ui'
 
 const TYPES = [
   { key: 'lesson', icon: '🐎' },
@@ -67,11 +67,11 @@ function Calendar({ selected, onSelect }) {
     <div className="w-full max-w-[340px]">
       {/* Header */}
       <div className="flex items-center justify-between mb-5">
-        <button onClick={prevMonth} className="w-8 h-8 flex items-center justify-center text-ink/50 hover:text-ink hover:bg-sun rounded-full transition-colors cursor-pointer">
+        <button onClick={prevMonth} className="w-8 h-8 flex items-center justify-center text-ink/50 hover:text-cream hover:bg-burgundy rounded-full transition-colors cursor-pointer">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M15 18l-6-6 6-6"/></svg>
         </button>
-        <span className="font-display text-[22px] text-ink">{monthName}</span>
-        <button onClick={nextMonth} className="w-8 h-8 flex items-center justify-center text-ink/50 hover:text-ink hover:bg-sun rounded-full transition-colors cursor-pointer">
+        <span className="font-display text-[16px] uppercase tracking-[0.12em] text-ink">{monthName}</span>
+        <button onClick={nextMonth} className="w-8 h-8 flex items-center justify-center text-ink/50 hover:text-cream hover:bg-burgundy rounded-full transition-colors cursor-pointer">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M9 18l6-6-6-6"/></svg>
         </button>
       </div>
@@ -102,7 +102,7 @@ function Calendar({ selected, onSelect }) {
               className={`
                 h-10 w-full flex items-center justify-center font-sans text-[14px] transition-all duration-150 rounded-full cursor-pointer
                 ${disabled ? 'text-ink/20 !cursor-not-allowed' : ''}
-                ${isSelected ? 'bg-ink text-cream' : !disabled ? 'hover:bg-sun text-ink' : ''}
+                ${isSelected ? 'bg-ink text-cream' : !disabled ? 'hover:bg-burgundy hover:text-cream text-ink' : ''}
                 ${isToday(day) && !isSelected ? 'ring-1 ring-ink/40' : ''}
               `}
             >
@@ -199,21 +199,22 @@ export default function BookingSection() {
           </div>
           <h2
             {...s(150)}
-            className={`font-display text-ink leading-[0.95] tracking-[-0.02em] ${s(150).className}`}
-            style={{ ...s(150).style, fontSize: 'clamp(52px, 9vw, 120px)' }}
+            className={`font-display text-ink uppercase leading-[1] tracking-[0.04em] ${s(150).className}`}
+            style={{ ...s(150).style, fontSize: 'clamp(40px, 6.4vw, 96px)' }}
           >
-            {tx.title1} {tx.title2}
+            {tx.title1}{' '}
+            <em className="font-accent italic font-normal normal-case tracking-normal text-[1.2em] text-burgundy">{tx.title2}</em>
           </h2>
         </div>
 
         {status === 'done' ? (
           <div {...s(0)} className={`max-w-[520px] bg-white/70 border border-ink/10 px-8 py-12 ${s(0).className}`}>
-            <div className="w-11 h-11 rounded-full bg-sun flex items-center justify-center mb-6">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#171613" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <div className="w-11 h-11 rounded-full bg-burgundy flex items-center justify-center mb-6">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f2eee3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="20 6 9 17 4 12"/>
               </svg>
             </div>
-            <h3 className="font-display text-[30px] leading-none text-ink mb-3">{tx.successTitle}</h3>
+            <h3 className="font-display text-[22px] uppercase tracking-[0.06em] leading-tight text-ink mb-3">{tx.successTitle}</h3>
             <p className="font-sans text-[15px] text-ink/75 leading-[1.8] mb-8">{tx.successMsg}</p>
             <button onClick={() => { setStep(1); setType(null); setDate(null); setSlot(null); setForm({ name: '', email: '', phone: '', notes: '' }); setStatus(null) }}
               className="group inline-flex items-center gap-3 font-sans font-medium text-[14px] tracking-[0.04em] text-ink uppercase cursor-pointer">
@@ -235,7 +236,7 @@ export default function BookingSection() {
                       className={`flex items-center gap-2 transition-all ${n < step ? 'cursor-pointer' : 'cursor-default'}`}
                     >
                       <span className={`w-8 h-8 rounded-full flex items-center justify-center font-sans font-semibold text-[12px] border transition-all duration-300 ${
-                        step === n ? 'bg-sun border-sun text-ink' :
+                        step === n ? 'bg-burgundy border-burgundy text-cream' :
                         step > n ? 'bg-ink border-ink text-cream' :
                         'border-ink/20 text-ink/40'
                       }`}>{n}</span>
@@ -267,10 +268,10 @@ export default function BookingSection() {
                               : 'bg-white/80 border-ink/10 text-ink hover:border-ink/40 hover:shadow-sm'
                           }`}
                         >
-                          {!sel && <span className="absolute inset-0 bg-sun/15 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />}
+                          {!sel && <span className="absolute inset-0 bg-burgundy/[0.06] opacity-0 group-hover:opacity-100 transition-opacity duration-200" />}
                           <span className="text-xl flex-shrink-0 relative">{icon}</span>
                           <span className="relative">
-                            <span className={`font-display text-[22px] leading-tight block mb-1 ${sel ? 'text-cream' : 'text-ink'}`}>
+                            <span className={`font-display text-[16px] uppercase tracking-[0.06em] leading-tight block mb-1.5 ${sel ? 'text-cream' : 'text-ink'}`}>
                               {tx.types[key]}
                             </span>
                             <span className={`font-sans text-[13px] ${sel ? 'text-cream/70' : 'text-ink/60'}`}>
@@ -302,7 +303,7 @@ export default function BookingSection() {
               {/* Step 3: Time slot */}
               {step === 3 && (
                 <div className="animate-fade-up" style={{ animationDuration: '0.6s' }}>
-                  <p className="font-display text-[24px] text-ink mb-2">{formatDate(date)}</p>
+                  <p className="font-accent italic text-[30px] text-ink mb-2">{formatDate(date)}</p>
                   <p className="font-sans text-[14px] text-ink/60 mb-7">{tx.chooseSlot}</p>
                   <div className="grid grid-cols-3 gap-3 max-w-[380px]">
                     {TIME_SLOTS.map((sl) => {
@@ -317,7 +318,7 @@ export default function BookingSection() {
                               : 'bg-white/80 border border-ink/10 text-ink hover:border-ink/40'
                           }`}
                         >
-                          {!isSel && <span className="absolute inset-0 bg-sun opacity-0 group-hover:opacity-100 transition-opacity duration-150" />}
+                          {!isSel && <span className="absolute inset-0 bg-burgundy/10 opacity-0 group-hover:opacity-100 transition-opacity duration-150" />}
                           <span className="relative">{sl.start}</span>
                         </button>
                       )
@@ -347,13 +348,13 @@ export default function BookingSection() {
                       className="input-field resize-none" />
 
                     {status === 'error' && (
-                      <p className="font-sans text-[13px] text-ink/80 border-l-2 border-sun pl-3">{tx.error}</p>
+                      <p className="font-sans text-[13px] text-ink/80 border-l-2 border-burgundy pl-3">{tx.error}</p>
                     )}
 
                     <div className="pt-3">
-                      <SunButton type="submit" disabled={status === 'sending'}>
+                      <CtaButton type="submit" disabled={status === 'sending'}>
                         {status === 'sending' ? tx.sending : tx.submit}
-                      </SunButton>
+                      </CtaButton>
                     </div>
                   </form>
                 </div>
@@ -362,8 +363,8 @@ export default function BookingSection() {
 
             {/* ── Right: summary card ── */}
             <div className="hidden lg:block">
-              <div className="bg-ink text-cream px-7 py-8 sticky top-28">
-                <p className="font-display text-[28px] leading-none text-cream mb-7">{tx.summary}</p>
+              <div className="bg-burgundy text-cream px-7 py-8 sticky top-28">
+                <p className="font-display text-[18px] uppercase tracking-[0.1em] leading-none text-cream mb-7">{tx.summary}</p>
                 <div className="space-y-6">
                   <SummaryRow label={tx.summaryType} value={type ? tx.types[type] : '—'} active={!!type} />
                   <SummaryRow label={tx.summaryDate} value={date ? formatDate(date) : '—'} active={!!date} />
@@ -387,7 +388,7 @@ export default function BookingSection() {
 function SummaryRow({ label, value, active }) {
   return (
     <div className="flex flex-col gap-1">
-      <span className="font-sans font-medium text-[11px] tracking-[0.16em] text-sun uppercase">{label}</span>
+      <span className="font-sans font-medium text-[11px] tracking-[0.16em] text-cream/60 uppercase">{label}</span>
       <span className={`font-sans text-[15px] transition-all duration-300 ${active ? 'text-cream' : 'text-cream/30'}`}>{value}</span>
     </div>
   )

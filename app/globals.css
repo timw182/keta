@@ -1,20 +1,21 @@
 @import "tailwindcss";
 
 @theme inline {
-  /* next/font exposes --ff-*; the theme maps them to font-display / font-sans */
+  /* next/font exposes --ff-*; the theme maps them to font-display / font-accent / font-sans */
   --font-display: var(--ff-display), Georgia, serif;
+  --font-accent: var(--ff-accent), Georgia, serif;
   --font-sans: var(--ff-sans), ui-sans-serif, system-ui, sans-serif;
 
   /* Public site palette */
   --color-cream: #f2eee3;
   --color-sand: #e7e0cf;
   --color-ink: #171613;
-  --color-sun: #f5b52e;
+  --color-burgundy: #6b1428;
+  --color-blush: #d9668a; /* burgundy tint, readable on ink */
   --color-lime: #a6e34b;
 
   /* Legacy palette — still used by the admin area */
   --color-champagne: #f7f2e8;
-  --color-burgundy: #6b1428;
   --color-gold: #b8946a;
 }
 

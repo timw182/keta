@@ -86,7 +86,7 @@ export default function ReviewCarousel() {
       >
         <div className="animate-float-slow">
           <span
-            className="font-display leading-none text-sun block"
+            className="font-accent leading-none text-burgundy block"
             style={{ fontSize: 'clamp(120px, 12vw, 170px)', lineHeight: 0.8 }}
           >
             &ldquo;
@@ -102,8 +102,8 @@ export default function ReviewCarousel() {
 
         {/* Quote */}
         <blockquote
-          className={`font-display text-ink leading-[1.25] tracking-[-0.01em] mb-10 transition-all duration-500 ease-out ${fade ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}
-          style={{ fontSize: 'clamp(24px, 3.4vw, 40px)' }}
+          className={`font-accent italic text-ink leading-[1.3] mb-10 transition-all duration-500 ease-out ${fade ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}
+          style={{ fontSize: 'clamp(26px, 3.6vw, 44px)' }}
         >
           &ldquo;{review.text}&rdquo;
         </blockquote>
@@ -111,7 +111,7 @@ export default function ReviewCarousel() {
         {/* Stars */}
         <div className={`flex justify-center gap-1 mb-4 transition-all duration-500 delay-75 ${fade ? 'opacity-100' : 'opacity-0'}`}>
           {[...Array(review.rating)].map((_, i) => (
-            <svg key={i} width="16" height="16" viewBox="0 0 24 24" fill="#f5b52e">
+            <svg key={i} width="16" height="16" viewBox="0 0 24 24" fill="#6b1428">
               <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" />
             </svg>
           ))}

@@ -6,7 +6,7 @@ import Footer from '../_components/Footer'
 import { useLang } from '../_components/LanguageProvider'
 import { t } from '../../lib/translations'
 import Contours from '../_components/Contours'
-import { Eyebrow, SunButton } from '../_components/ui'
+import { Eyebrow, CtaButton } from '../_components/ui'
 
 function RevealField({ value, href, className }) {
   const [shown, setShown] = useState(false)
@@ -104,10 +104,11 @@ export default function ContactPage() {
             <Eyebrow>{tx.label}</Eyebrow>
           </div>
           <h1
-            className="font-display text-ink leading-[0.95] tracking-[-0.02em] mt-6 opacity-0 animate-fade-up"
-            style={{ fontSize: 'clamp(56px, 10vw, 140px)', animationDelay: '0.5s' }}
+            className="font-display text-ink uppercase leading-[1] tracking-[0.04em] mt-6 opacity-0 animate-fade-up"
+            style={{ fontSize: 'clamp(44px, 7.5vw, 112px)', animationDelay: '0.5s' }}
           >
-            {tx.title1} {tx.title2}
+            {tx.title1}{' '}
+            <em className="font-accent italic font-normal normal-case tracking-normal text-[1.2em] text-burgundy">{tx.title2}</em>
           </h1>
         </div>
       </section>
@@ -122,13 +123,13 @@ export default function ContactPage() {
           <div>
             {status === 'sent' ? (
               <div className="flex flex-col items-start gap-5 py-14 px-8 bg-white/70 border border-ink/10">
-                <div className="w-11 h-11 rounded-full bg-sun flex items-center justify-center">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#171613" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <div className="w-11 h-11 rounded-full bg-burgundy flex items-center justify-center">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f2eee3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="20 6 9 17 4 12"/>
                   </svg>
                 </div>
                 <div>
-                  <p className="font-display text-[28px] text-ink mb-2">Message Sent</p>
+                  <p className="font-display text-[20px] uppercase tracking-[0.06em] text-ink mb-2">Message Sent</p>
                   <p className="font-sans text-[15px] text-ink/75 leading-[1.8]">{tx.sent}</p>
                 </div>
               </div>
@@ -142,17 +143,17 @@ export default function ContactPage() {
                 <FloatField name="message" required rows={5} label={tx.messagePlaceholder} value={form.message} onChange={handleChange} />
 
                 {status === 'error' && (
-                  <p className="font-sans text-[13px] text-ink/80 border-l-2 border-sun pl-3 py-0.5">{tx.error}</p>
+                  <p className="font-sans text-[13px] text-ink/80 border-l-2 border-burgundy pl-3 py-0.5">{tx.error}</p>
                 )}
 
                 <div className="pt-4">
-                  <SunButton
+                  <CtaButton
                     type="submit"
                     disabled={status === 'sending'}
                     className="w-full sm:w-auto"
                   >
                     {status === 'sending' ? tx.sending : tx.send}
-                  </SunButton>
+                  </CtaButton>
                 </div>
               </form>
             )}
@@ -161,29 +162,29 @@ export default function ContactPage() {
           {/* ── Details + map ── */}
           <div className="flex flex-col gap-10">
 
-            <h3 className="font-display text-[34px] leading-none text-ink">{tx.detailsLabel}</h3>
+            <h3 className="font-display text-[24px] uppercase tracking-[0.08em] leading-none text-ink">{tx.detailsLabel}</h3>
 
             <div className="space-y-7">
               <div className="flex items-start gap-4">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#171613" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="mt-1 shrink-0">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6b1428" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="mt-1 shrink-0">
                   <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
                 </svg>
                 <p className="font-sans text-[16px] text-ink/80 leading-[1.7]">{tx.address}</p>
               </div>
               <div className="flex items-start gap-4">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#171613" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="mt-1 shrink-0">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6b1428" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="mt-1 shrink-0">
                   <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.99 12 19.79 19.79 0 0 1 1.96 3.35 2 2 0 0 1 3.93 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
                 </svg>
                 <RevealField value={tx.phone} href={`tel:${tx.phone.replace(/\s/g, '')}`} className="font-sans text-[16px] text-ink/80 hover:text-ink transition-colors duration-200" />
               </div>
               <div className="flex items-start gap-4">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#171613" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="mt-1 shrink-0">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6b1428" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="mt-1 shrink-0">
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
                 </svg>
                 <RevealField value={tx.email} href={`mailto:${tx.email}`} className="font-sans text-[16px] text-ink/80 hover:text-ink transition-colors duration-200" />
               </div>
               <div className="flex items-start gap-4">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#171613" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="mt-1 shrink-0">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6b1428" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="mt-1 shrink-0">
                   <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
                 </svg>
                 <p className="font-sans text-[16px] text-ink/80 leading-[1.7]">{tx.hours}</p>

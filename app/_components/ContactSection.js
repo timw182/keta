@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { useLang } from './LanguageProvider'
 import { t } from '../../lib/translations'
-import { Eyebrow, SunButton } from './ui'
+import { Eyebrow, CtaButton } from './ui'
 
 /* Anti-scrape reveal for phone/email */
 function RevealField({ value, href, className }) {
@@ -16,7 +16,7 @@ function RevealField({ value, href, className }) {
   return (
     <button
       onClick={() => setShown(true)}
-      className="font-sans text-[14px] text-sun border-b border-dotted border-sun/50 hover:border-sun transition-colors duration-200 cursor-pointer pb-px"
+      className="font-sans text-[14px] text-blush border-b border-dotted border-blush/50 hover:border-blush transition-colors duration-200 cursor-pointer pb-px"
     >
       Click to reveal
     </button>
@@ -39,7 +39,7 @@ function FloatField({ name, type = 'text', required, label, rows, value, onChang
     className: [
       'w-full bg-white/[0.04] border border-cream/15 px-4 font-sans',
       'text-[15px] text-cream focus:outline-none transition-all duration-300',
-      focused ? 'border-sun bg-white/[0.07]' : 'hover:border-cream/30',
+      focused ? 'border-blush bg-white/[0.07]' : 'hover:border-cream/30',
       rows ? 'pt-7 pb-3 resize-none' : 'pt-6 pb-2',
     ].join(' '),
   }
@@ -51,7 +51,7 @@ function FloatField({ name, type = 'text', required, label, rows, value, onChang
         className={[
           'absolute left-4 pointer-events-none font-sans transition-all duration-200',
           isActive
-            ? 'top-[9px] text-[10px] tracking-[0.18em] uppercase font-medium ' + (focused ? 'text-sun' : 'text-cream/55')
+            ? 'top-[9px] text-[10px] tracking-[0.18em] uppercase font-medium ' + (focused ? 'text-blush' : 'text-cream/55')
             : 'top-4 text-[14px] text-cream/50',
         ].join(' ')}
       >
@@ -68,22 +68,22 @@ function FloatField({ name, type = 'text', required, label, rows, value, onChang
 /* Contact detail row data */
 const detailIcons = {
   address: (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f5b52e" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#d9668a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
       <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
     </svg>
   ),
   phone: (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f5b52e" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#d9668a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
       <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.99 12 19.79 19.79 0 0 1 1.96 3.35 2 2 0 0 1 3.93 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
     </svg>
   ),
   email: (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f5b52e" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#d9668a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
       <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
     </svg>
   ),
   hours: (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f5b52e" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#d9668a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
     </svg>
   ),
@@ -134,8 +134,8 @@ export default function ContactSection() {
   /* Contact detail rows */
   const details = [
     { icon: detailIcons.address, label: tx.detailsLabel, content: <p className="font-sans text-[15px] text-cream/80 leading-[1.7]">{tx.address}</p> },
-    { icon: detailIcons.phone, label: 'Phone', content: <RevealField value={tx.phone} href={`tel:${tx.phone.replace(/\s/g, '')}`} className="font-sans text-[15px] text-cream/80 hover:text-sun transition-colors duration-200" /> },
-    { icon: detailIcons.email, label: 'Email', content: <RevealField value={tx.email} href={`mailto:${tx.email}`} className="font-sans text-[15px] text-cream/80 hover:text-sun transition-colors duration-200" /> },
+    { icon: detailIcons.phone, label: 'Phone', content: <RevealField value={tx.phone} href={`tel:${tx.phone.replace(/\s/g, '')}`} className="font-sans text-[15px] text-cream/80 hover:text-blush transition-colors duration-200" /> },
+    { icon: detailIcons.email, label: 'Email', content: <RevealField value={tx.email} href={`mailto:${tx.email}`} className="font-sans text-[15px] text-cream/80 hover:text-blush transition-colors duration-200" /> },
     { icon: detailIcons.hours, label: 'Hours', content: <p className="font-sans text-[15px] text-cream/80 leading-[1.7]">{tx.hours}</p> },
   ]
 
@@ -153,8 +153,8 @@ export default function ContactSection() {
         <div className="animate-drift-slow">
           <svg
             viewBox="338 146 165 165"
-            className="w-[clamp(280px,45vw,620px)] h-auto opacity-[0.05]"
-            fill="#f5b52e"
+            className="w-[clamp(280px,45vw,620px)] h-auto opacity-[0.025]"
+            fill="#d9668a"
           >
             <path d="M389.12,226.12h.38l32.14-40.49h67.01c-14.14-22.51-39.17-37.48-67.7-37.48-11.31,0-22.07,2.37-31.83,6.61v71.36Z"/>
             <path d="M469.72,198.87v71.63l-16.95-18.54v-53.09h-22.33l-22.18,28.06,60.49,65.17c19.49-14.57,32.1-37.83,32.1-64.04,0-10.31-1.97-20.15-5.52-29.19h-25.61Z"/>
@@ -172,11 +172,11 @@ export default function ContactSection() {
         </div>
         <h2
           {...s(150)}
-          className={`font-display text-cream leading-[0.95] tracking-[-0.01em] mb-16 md:mb-24 ${s(150).className}`}
-          style={{ ...s(150).style, fontSize: 'clamp(40px, 6vw, 88px)' }}
+          className={`font-display text-cream uppercase leading-[1] tracking-[0.04em] mb-16 md:mb-24 ${s(150).className}`}
+          style={{ ...s(150).style, fontSize: 'clamp(36px, 5.2vw, 76px)' }}
         >
           {tx.title1}{' '}
-          <em className="font-display not-italic text-sun">
+          <em className="font-accent italic font-normal normal-case tracking-normal text-[1.2em] text-blush">
             {tx.title2}
           </em>
         </h2>
@@ -223,13 +223,13 @@ export default function ContactSection() {
           <div>
             {status === 'sent' ? (
               <div {...s(300)} className={`flex flex-col items-start gap-5 py-14 px-8 border border-cream/15 ${s(300).className}`}>
-                <div className="w-11 h-11 rounded-full bg-sun flex items-center justify-center">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#171613" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <div className="w-11 h-11 rounded-full bg-burgundy flex items-center justify-center">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f2eee3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <polyline points="20 6 9 17 4 12"/>
                   </svg>
                 </div>
                 <div>
-                  <p className="font-display text-[26px] text-cream mb-2">Message Sent</p>
+                  <p className="font-display text-[20px] uppercase tracking-[0.06em] text-cream mb-2">Message Sent</p>
                   <p className="font-sans text-[15px] text-cream/75 leading-[1.8]">{tx.sent}</p>
                 </div>
               </div>
@@ -266,20 +266,20 @@ export default function ContactSection() {
                 </div>
 
                 {status === 'error' && (
-                  <p className="font-sans text-[13px] text-cream/80 border-l-2 border-sun pl-3 py-0.5">
+                  <p className="font-sans text-[13px] text-cream/80 border-l-2 border-blush pl-3 py-0.5">
                     {tx.error}
                   </p>
                 )}
 
                 <div {...s(700)}>
                   <div className="pt-4">
-                    <SunButton
+                    <CtaButton
                       type="submit"
                       disabled={status === 'sending'}
                       className="w-full sm:w-auto"
                     >
                       {status === 'sending' ? tx.sending : tx.send}
-                    </SunButton>
+                    </CtaButton>
                   </div>
                 </div>
               </form>
