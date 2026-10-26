@@ -1,13 +1,13 @@
 import Navbar from '../_components/Navbar'
 import BookingSection from '../_components/BookingSection'
+import Footer from '../_components/Footer'
 
 export default function BookingPage() {
   return (
-    <main className="bg-champagne min-h-screen">
+    <main className="bg-cream min-h-screen overflow-x-clip">
       <Navbar />
-      <div className="pt-28 md:pt-32">
-        <BookingSection />
-      </div>
+      <BookingSection />
+      <Footer />
     </main>
   )
 }

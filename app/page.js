@@ -7,11 +7,40 @@ import ReviewCarousel from './_components/ReviewCarousel'
 import Navbar from './_components/Navbar'
 import ContactSection from './_components/ContactSection'
 import Footer from './_components/Footer'
+import Contours from './_components/Contours'
+import { Eyebrow, SunButton, ArrowLink } from './_components/ui'
 import { useEffect, useRef, useState } from 'react'
 import { useLang } from './_components/LanguageProvider'
 import { t } from '../lib/translations'
 
-const PARALLAX_TEXT = -0.06
+/* Circular stamp with text on a path — sits on the corner of the hero photo */
+function RideBadge({ label }) {
+  return (
+    <Link
+      href="/booking"
+      aria-label={label}
+      className="group relative block w-[104px] h-[104px] md:w-[132px] md:h-[132px] rounded-full bg-cream shadow-[0_6px_24px_rgba(23,22,19,0.12)]"
+    >
+      <svg viewBox="0 0 132 132" className="absolute inset-0 w-full h-full animate-spin-slow" aria-hidden="true">
+        <defs>
+          <path id="badge-circle" d="M66,66 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0" />
+        </defs>
+        <circle cx="66" cy="66" r="62" fill="none" stroke="currentColor" strokeWidth="2" className="text-ink" />
+        <circle cx="66" cy="66" r="57" fill="none" stroke="currentColor" strokeWidth="1" className="text-ink" />
+        <text className="fill-ink font-display" fontSize="13" letterSpacing="2.5">
+          <textPath href="#badge-circle" textLength="270" lengthAdjust="spacing">
+            {`${label.toUpperCase()} ★ KT ★`}
+          </textPath>
+        </text>
+      </svg>
+      <span className="absolute inset-0 flex items-center justify-center text-ink transition-transform duration-300 group-hover:rotate-45">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+          <path d="M7 17 17 7M9 7h8v8" />
+        </svg>
+      </span>
+    </Link>
+  )
+}
 
 /* Booking CTA band between services and testimonials */
 function BookingCTA() {
@@ -30,54 +59,23 @@ function BookingCTA() {
   }, [])
 
   return (
-    <section
-      ref={ref}
-      className="relative overflow-hidden py-24 md:py-32"
-      style={{ background: 'linear-gradient(135deg, #3a1520 0%, #6b1428 50%, #3a1520 100%)', zIndex: 1 }}
-    >
-      {/* Subtle inner border */}
-      <div className="absolute inset-4 md:inset-10 border border-gold/10 pointer-events-none" />
+    <section ref={ref} className="relative overflow-hidden bg-sun py-20 md:py-28">
+      <Contours className="text-ink/[0.12]" />
 
-      {/* Top/bottom rules */}
-      <div className="absolute top-0 inset-x-5 md:inset-x-20 h-px bg-gradient-to-r from-transparent via-gold/25 to-transparent" />
-      <div className="absolute bottom-0 inset-x-5 md:inset-x-20 h-px bg-gradient-to-r from-transparent via-gold/25 to-transparent" />
-
-      <div className={`max-w-3xl mx-auto px-5 md:px-20 text-center transition-all duration-[1.4s] ease-out ${vis ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-        <div className="flex items-center justify-center gap-3.5 mb-8">
-          <span className={`h-px bg-gold/40 transition-all duration-[1.4s] ease-out ${vis ? 'w-8' : 'w-0'}`} />
-          <span className="font-[var(--font-cinzel)] text-[9px] tracking-[0.5em] text-gold/70 uppercase">{tx.label}</span>
-          <span className={`h-px bg-gold/40 transition-all duration-[1.4s] ease-out ${vis ? 'w-8' : 'w-0'}`} />
-        </div>
-
-        <h2
-          className={`font-[var(--font-cinzel)] text-champagne uppercase leading-[0.9] mb-5 transition-all duration-[1.2s] ease-out ${vis ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-          style={{ fontSize: 'clamp(28px, 5vw, 56px)', letterSpacing: '0.05em', transitionDelay: vis ? '200ms' : '0ms' }}
-        >
-          {tx.title1}
-          <em className="block font-[var(--font-cormorant)] italic font-light text-gold not-italic leading-none" style={{ letterSpacing: '0.02em' }}>
-            {tx.title2}
-          </em>
-        </h2>
-
-        <p
-          className={`font-[var(--font-jost)] font-light text-[15px] text-champagne/40 leading-[1.8] max-w-md mx-auto mb-10 transition-all duration-[1.2s] ease-out ${vis ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
-          style={{ transitionDelay: vis ? '350ms' : '0ms' }}
-        >
-          {tx.chooseType}
-        </p>
-
-        <div
-          className={`flex flex-col sm:flex-row items-center justify-center gap-4 transition-all duration-[1.2s] ease-out ${vis ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
-          style={{ transitionDelay: vis ? '500ms' : '0ms' }}
-        >
-          <Link
-            href="/booking"
-            className="btn-shimmer inline-flex items-center gap-5 font-[var(--font-cinzel)] text-[10px] tracking-[0.4em] text-champagne uppercase bg-gold/20 border border-gold/50 px-8 py-3.5 transition-all duration-300 hover:bg-gold/30 hover:border-gold active:scale-[0.97]"
-          >
+      <div className={`relative max-w-[1320px] mx-auto px-5 md:px-12 flex flex-col md:flex-row md:items-end md:justify-between gap-10 transition-all duration-[1.2s] ease-out ${vis ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <div className="max-w-2xl">
+          <Eyebrow className="!text-ink mb-6">{tx.label}</Eyebrow>
+          <h2 className="font-display text-ink leading-[0.98] tracking-[-0.01em]" style={{ fontSize: 'clamp(40px, 6vw, 88px)' }}>
             {tx.title1} {tx.title2}
-            <span className="w-4 h-px bg-current" />
-          </Link>
+          </h2>
+          <p className="font-sans text-[16px] text-ink/75 leading-[1.7] mt-5 max-w-md">
+            {tx.chooseType}
+          </p>
         </div>
+
+        <SunButton href="/booking" variant="ink" className="self-start md:self-auto">
+          {tx.title1} {tx.title2}
+        </SunButton>
       </div>
     </section>
   )
@@ -115,34 +113,16 @@ export default function Home() {
   const { lang } = useLang()
   const tx = t[lang]
 
-  const textRef = useRef(null)
   const aboutRef = useRef(null)
   const [aboutVisible, setAboutVisible] = useState(false)
 
   useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
-
-    function onScroll() {
-      if (mq.matches) return
-      const y = window.scrollY
-      const vh = window.innerHeight
-      if (textRef.current) {
-        textRef.current.style.transform = `translateY(${y * PARALLAX_TEXT}px)`
-        textRef.current.style.opacity = Math.max(0, 1 - y / (vh * 0.45)).toString()
-      }
-    }
-    window.addEventListener('scroll', onScroll, { passive: true })
-
     const obs = new IntersectionObserver(
       ([e]) => { if (e.isIntersecting) setAboutVisible(true) },
       { threshold: 0.1 }
     )
     if (aboutRef.current) obs.observe(aboutRef.current)
-
-    return () => {
-      window.removeEventListener('scroll', onScroll)
-      obs.disconnect()
-    }
+    return () => obs.disconnect()
   }, [])
 
   /* Stagger helper */
@@ -151,85 +131,104 @@ export default function Home() {
     style: { transitionDelay: aboutVisible ? `${delay}ms` : '0ms' },
   })
 
+  /* Hero entrance helper */
+  const rise = (delay) => ({
+    className: 'opacity-0 animate-fade-up',
+    style: { animationDelay: `${delay}s` },
+  })
+
   return (
     <main>
       <Navbar />
 
-      {/* ── HERO (kept) ── */}
-      <section className="sticky top-0 w-full h-screen overflow-hidden bg-black" style={{ zIndex: 0 }}>
+      {/* ── HERO — editorial collage on contour lines ── */}
+      <section className="relative overflow-hidden">
+        <Contours className="text-ink/[0.09]" />
 
-        {/* Gold frame */}
-        <div className="absolute inset-4 md:inset-10 border border-gold/50 pointer-events-none z-10"
-          style={{ boxShadow: 'inset 0 0 60px rgba(0,0,0,0.5)' }} />
-        <div className="absolute inset-[20px] md:inset-[44px] border border-gold/15 pointer-events-none z-10" />
+        <div className="relative max-w-[1320px] mx-auto px-5 md:px-12 pt-10 md:pt-14 pb-20 md:pb-28">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-y-12 lg:gap-x-10">
 
-        {/* Image */}
-        <div className="absolute inset-0">
-          <Image
-            src="/images/choice2.jpeg"
-            alt="KT Equestrian"
-            fill priority sizes="100vw"
-            className="object-cover"
-            style={{ objectPosition: 'center 18%', filter: 'grayscale(0.65) brightness(0.52) contrast(1.08)' }}
-          />
-        </div>
+            {/* Headline + intro + CTA */}
+            <div className="lg:col-span-5 lg:pt-6">
+              <h1
+                {...rise(0.5)}
+                className={`font-display text-ink leading-[1.02] tracking-[-0.015em] ${rise(0.5).className}`}
+                style={{ ...rise(0.5).style, fontSize: 'clamp(46px, 6vw, 86px)' }}
+              >
+                {tx.hero.title1}
+                <br />
+                {tx.hero.title2}
+              </h1>
 
-        {/* Gradient */}
-        <div className="absolute inset-0 z-20"
-          style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.05) 35%, rgba(0,0,0,0.55) 70%, rgba(0,0,0,0.9) 100%)' }} />
+              <p {...rise(0.7)} className={`font-sans text-[16px] leading-[1.75] text-ink/80 mt-7 max-w-[340px] ${rise(0.7).className}`}>
+                {tx.aboutMe.heroSub}. {tx.hero.tagline}.
+              </p>
 
-        {/* Hero content */}
-        <div ref={textRef} className="absolute inset-0 z-30 flex flex-col justify-end px-5 pb-14 md:px-[80px] md:pb-20 will-change-transform">
+              <div {...rise(0.9)} className={`mt-10 ${rise(0.9).className}`}>
+                <SunButton href="#contact">{tx.hero.cta1}</SunButton>
+              </div>
+            </div>
 
-          <div className="flex items-center gap-3 mb-5 opacity-0 animate-fade-up" style={{ animationDelay: '0.6s' }}>
-            <span className="w-6 h-px bg-gold/70" />
-            <span className="font-[var(--font-cinzel)] text-[9px] tracking-[0.5em] text-gold/80 uppercase">{tx.hero.tagline}</span>
+            {/* Main photo with badge + black tile */}
+            <div {...rise(0.6)} className={`relative lg:col-span-7 ${rise(0.6).className}`}>
+              <div className="relative aspect-[4/3] overflow-hidden ml-6 md:ml-14">
+                <Image
+                  src="/images/card1.jpeg"
+                  alt="Kelly cantering a black horse in the arena"
+                  fill priority
+                  sizes="(max-width: 1024px) 100vw, 55vw"
+                  className="object-cover"
+                  style={{ objectPosition: 'center 45%' }}
+                />
+              </div>
+
+              <div className="absolute -top-8 left-0 md:top-10 md:-left-4 z-10">
+                <RideBadge label={tx.hero.tagline} />
+              </div>
+
+              <Link
+                href="/booking"
+                className="absolute -bottom-10 right-8 md:right-auto md:left-[38%] z-10 w-[118px] h-[118px] md:w-[138px] md:h-[138px] bg-ink text-cream flex items-center justify-center text-center px-4 font-sans font-semibold text-[12px] md:text-[13px] tracking-[0.1em] uppercase leading-[1.5] transition-colors duration-300 hover:bg-sun hover:text-ink"
+              >
+                {tx.contact.bookingNavLabel}
+              </Link>
+            </div>
+
+            {/* Jumping photo with lime tag */}
+            <div {...rise(0.9)} className={`relative lg:col-span-6 lg:-mt-16 ${rise(0.9).className}`}>
+              <div className="relative aspect-[5/4] overflow-hidden bg-[#9cc9e8] mr-10 md:mr-16">
+                <Image
+                  src="/images/IMG_4C607A2186F6-1.jpeg"
+                  alt="Show jumping over an oxer"
+                  fill
+                  sizes="(max-width: 1024px) 90vw, 45vw"
+                  className="object-cover"
+                  style={{ objectPosition: 'center 30%' }}
+                />
+              </div>
+              <span className="notch-tag absolute right-0 md:right-4 bottom-16 bg-lime text-ink font-display text-[22px] md:text-[26px] leading-none px-5 py-2.5 -rotate-3 shadow-[0_4px_0_rgba(23,22,19,0.85)]">
+                {tx.about.established}
+              </span>
+            </div>
+
+            {/* Small photo cluster + text link */}
+            <div {...rise(1.1)} className={`lg:col-span-6 lg:pt-24 flex flex-col justify-end ${rise(1.1).className}`}>
+              <div className="flex items-end justify-end gap-4 md:gap-5">
+                <div className="relative w-[24%] aspect-square overflow-hidden mb-12">
+                  <Image src="/images/DSC_1721in.jpg" alt="" fill sizes="160px" className="object-cover" />
+                </div>
+                <div className="relative w-[28%] aspect-[3/4] overflow-hidden mb-24">
+                  <Image src="/images/DSC_1753in.jpg" alt="" fill sizes="220px" className="object-cover" style={{ objectPosition: '30% center' }} />
+                </div>
+                <div className="relative w-[24%] aspect-[3/4] overflow-hidden">
+                  <Image src="/images/choice3.jpg" alt="" fill sizes="160px" className="object-cover" />
+                </div>
+              </div>
+              <div className="mt-8 md:-mt-10 md:pr-[34%]">
+                <ArrowLink href="#about">{tx.hero.cta2}</ArrowLink>
+              </div>
+            </div>
           </div>
-
-          <h1
-            className="font-[var(--font-cinzel)] font-normal text-champagne uppercase leading-[0.85] opacity-0 animate-fade-up"
-            style={{ fontSize: 'clamp(38px, 11vw, 148px)', letterSpacing: '0.04em', animationDelay: '0.8s' }}
-          >
-            Equestrian
-            <em className="block font-[var(--font-cormorant)] not-italic italic text-gold leading-none" style={{ letterSpacing: '0.02em' }}>
-              Excellence
-            </em>
-          </h1>
-
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-start gap-3 mt-8 opacity-0 animate-fade-up" style={{ animationDelay: '1.1s' }}>
-            <a href="#contact"
-              className="btn-shimmer inline-flex items-center justify-center sm:justify-start gap-5 font-[var(--font-cinzel)] text-[10px] tracking-[0.4em] text-champagne uppercase bg-burgundy border border-burgundy/80 px-8 py-3.5 transition-all duration-300 hover:bg-burgundy/80 active:scale-[0.97]">
-              {tx.hero.cta1}
-              <span className="w-4 h-px bg-current" />
-            </a>
-            <a href="#about"
-              className="inline-flex items-center justify-center sm:justify-start gap-5 font-[var(--font-cinzel)] text-[10px] tracking-[0.4em] text-champagne/60 uppercase border border-gold/30 px-8 py-3.5 transition-all duration-300 hover:text-champagne hover:border-gold/60 active:scale-[0.97]">
-              {tx.hero.cta2}
-            </a>
-          </div>
-        </div>
-
-        {/* Socials */}
-        <div className="absolute bottom-12 md:bottom-[72px] right-8 md:right-[72px] z-30 flex flex-col items-end gap-3 opacity-0 animate-fade-in" style={{ animationDelay: '1.6s' }}>
-          <span className="font-[var(--font-cinzel)] text-[8px] tracking-[0.45em] text-champagne/35 uppercase">Follow</span>
-          <div className="flex items-center gap-4">
-            <a href="https://instagram.com/ktequestrian" target="_blank" rel="noopener noreferrer" className="text-champagne/45 hover:text-gold transition-colors duration-200" aria-label="Instagram">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
-              </svg>
-            </a>
-            <a href="https://facebook.com/ktequestrian" target="_blank" rel="noopener noreferrer" className="text-champagne/45 hover:text-gold transition-colors duration-200" aria-label="Facebook">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
-              </svg>
-            </a>
-          </div>
-        </div>
-
-        {/* Scroll cue */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2 opacity-0 animate-fade-in" style={{ animationDelay: '2s' }}>
-          <div className="w-px h-10 bg-gradient-to-b from-gold/60 to-transparent animate-scroll-pulse" />
-          <span className="font-[var(--font-cinzel)] text-[8px] tracking-[0.5em] text-champagne/35 uppercase">{tx.hero.scroll}</span>
         </div>
       </section>
 
@@ -237,48 +236,36 @@ export default function Home() {
       <section
         id="about"
         ref={aboutRef}
-        className="relative bg-champagne overflow-hidden"
-        style={{ zIndex: 1 }}
+        className="relative bg-sand overflow-hidden scroll-mt-20"
       >
-        {/* Top rule */}
-        <div className="absolute top-0 inset-x-5 md:inset-x-20 h-px bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
+        <div className="max-w-[1320px] mx-auto px-5 py-24 md:px-12 md:py-36">
 
-        <div className="max-w-[1320px] mx-auto px-5 py-24 md:px-20 md:py-40">
-
-          {/* Label — gold line animates width */}
-          <div {...stagger(0)} className={`flex items-center gap-3.5 mb-16 md:mb-20 ${stagger(0).className}`}>
-            <span className={`h-px bg-gold transition-all duration-[1.4s] ease-out ${aboutVisible ? 'w-8' : 'w-0'}`} />
-            <span className="font-[var(--font-cinzel)] text-[9px] tracking-[0.5em] text-gold uppercase">{tx.about.label}</span>
+          <div {...stagger(0)} className={`mb-12 md:mb-16 ${stagger(0).className}`}>
+            <Eyebrow>{tx.about.label}</Eyebrow>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_0.82fr] gap-14 lg:gap-24 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_0.8fr] gap-14 lg:gap-24 items-start">
 
             {/* Left: text — staggered children */}
             <div>
-              {/* Pull quote */}
               <blockquote
                 {...stagger(200)}
-                className={`font-[var(--font-cormorant)] italic font-light text-burgundy leading-[1.2] mb-12 ${stagger(200).className}`}
-                style={{ ...stagger(200).style, fontSize: 'clamp(24px, 4.2vw, 52px)' }}
+                className={`font-display text-ink leading-[1.15] tracking-[-0.01em] mb-12 ${stagger(200).className}`}
+                style={{ ...stagger(200).style, fontSize: 'clamp(26px, 3.4vw, 46px)' }}
               >
                 &ldquo;{tx.about.bio}&rdquo;
               </blockquote>
 
-              {/* Title */}
               <div {...stagger(350)}>
-                <h2 className="font-[var(--font-cinzel)] text-burgundy uppercase tracking-[0.12em] text-sm mb-3">
-                  {tx.about.title1}
-                  <em className="block font-[var(--font-cormorant)] italic font-light text-[1.3em] text-burgundy tracking-[0.04em]">
-                    {tx.about.title2}
-                  </em>
+                <h2 className="font-sans font-semibold text-ink uppercase tracking-[0.12em] text-[13px]">
+                  {tx.about.title1} {tx.about.title2}
                 </h2>
               </div>
 
-              {/* Body text */}
               {t[lang].aboutMe?.storyP1 && (
                 <p
                   {...stagger(450)}
-                  className={`font-[var(--font-jost)] font-light text-[15px] leading-[1.9] text-burgundy/50 max-w-lg mt-5 mb-14 ${stagger(450).className}`}
+                  className={`font-sans text-[16px] leading-[1.8] text-ink/70 max-w-lg mt-4 mb-14 ${stagger(450).className}`}
                 >
                   {t[lang].aboutMe.storyP1}
                 </p>
@@ -287,39 +274,34 @@ export default function Home() {
               {/* Animated stats */}
               <div
                 {...stagger(550)}
-                className={`flex items-center gap-8 md:gap-14 mb-14 ${stagger(550).className}`}
+                className={`grid grid-cols-3 max-w-lg border-y border-ink/15 mb-14 ${stagger(550).className}`}
               >
                 {[
                   { end: 10, suffix: '+', label: 'Years', delay: 700 },
                   { end: 10, suffix: '+', label: 'Titles', delay: 900 },
                   { end: 2015, suffix: '', label: tx.about.established, delay: 1100 },
                 ].map((s, i) => (
-                  <div key={i} className="flex items-center gap-8 md:gap-14">
-                    {i > 0 && <div className="w-px h-10 bg-gold/20 -ml-8 md:-ml-14" />}
-                    <div>
-                      <span className="font-[var(--font-cinzel)] text-burgundy text-[clamp(22px,3vw,36px)] leading-none tabular-nums">
-                        <CountUp end={s.end} suffix={s.suffix} visible={aboutVisible} delay={s.delay} />
-                      </span>
-                      <span className="block font-[var(--font-jost)] font-light text-[10px] tracking-[0.3em] text-burgundy/30 uppercase mt-1.5">{s.label}</span>
-                    </div>
+                  <div key={i} className={`py-6 ${i > 0 ? 'pl-6 border-l border-ink/15' : ''}`}>
+                    <span className="font-display text-ink text-[clamp(30px,3.4vw,46px)] leading-none tabular-nums">
+                      <CountUp end={s.end} suffix={s.suffix} visible={aboutVisible} delay={s.delay} />
+                    </span>
+                    <span className="block font-sans font-medium text-[11px] tracking-[0.18em] text-ink/55 uppercase mt-2">{s.label}</span>
                   </div>
                 ))}
               </div>
 
-              {/* CTA with animated arrow */}
               <div {...stagger(650)}>
-                <Link
-                  href="/about"
-                  className="group inline-flex items-center gap-5 font-[var(--font-cinzel)] text-[10px] tracking-[0.4em] text-burgundy uppercase"
-                >
-                  {tx.about.cta}
-                  <span className="w-8 h-px bg-gold group-hover:w-16 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]" />
-                </Link>
+                <ArrowLink href="/about">{tx.about.cta}</ArrowLink>
               </div>
             </div>
 
-            {/* Right: Portrait with clip-path reveal + offset frame */}
-            <div className="relative mt-2 lg:mt-0">
+            {/* Right: Portrait with clip-path reveal + offset sun block */}
+            <div className="relative mt-2 lg:mt-0 mr-4 md:mr-6">
+              <div
+                className={`absolute top-6 left-6 -right-4 -bottom-4 md:top-8 md:left-8 md:-right-6 md:-bottom-6 bg-sun transition-opacity duration-[1s] ease-out ${aboutVisible ? 'opacity-100' : 'opacity-0'}`}
+                style={{ transitionDelay: aboutVisible ? '900ms' : '0ms' }}
+                aria-hidden="true"
+              />
               <div
                 className="relative aspect-[3/4] overflow-hidden"
                 style={{
@@ -336,12 +318,6 @@ export default function Home() {
                   sizes="(max-width: 1024px) 100vw, 42vw"
                 />
               </div>
-              {/* Offset gold frame — fades in after image reveals */}
-              <div
-                className={`absolute -bottom-3 -right-3 md:-bottom-5 md:-right-5 top-3 left-3 md:top-5 md:left-5 border border-gold/25 pointer-events-none transition-opacity duration-[1s] ease-out ${aboutVisible ? 'opacity-100' : 'opacity-0'}`}
-                style={{ transitionDelay: aboutVisible ? '1200ms' : '0ms' }}
-                aria-hidden="true"
-              />
             </div>
           </div>
         </div>

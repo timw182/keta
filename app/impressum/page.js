@@ -1,47 +1,47 @@
 'use client'
 
-import Link from 'next/link'
 import Navbar from '../_components/Navbar'
 import Footer from '../_components/Footer'
 import { useLang } from '../_components/LanguageProvider'
 import { t } from '../../lib/translations'
+import Contours from '../_components/Contours'
+import { Eyebrow } from '../_components/ui'
 
 export default function ImpressumPage() {
   const { lang } = useLang()
   const tx = t[lang].impressum
 
   return (
-    <main className="min-h-screen" style={{ background: '#0f0c09' }}>
+    <main className="min-h-screen bg-cream overflow-x-clip">
       <Navbar />
 
       {/* Hero */}
-      <div className="relative flex flex-col items-center justify-end px-6 text-center pb-14 md:pb-20 pt-[160px] md:pt-[200px]">
-        <div className="absolute inset-3 md:inset-8 border border-gold/15 pointer-events-none" />
-
-        <div className="flex items-center gap-3 md:gap-5 mb-5 opacity-0 animate-fade-up" style={{ animationDelay: '0.3s' }}>
-          <span className="w-[25px] md:w-[40px] h-px bg-gold/50" />
-          <span className="font-[var(--font-cinzel)] text-[9px] md:text-[11px] tracking-[0.4em] text-gold/70 uppercase">{tx.label}</span>
-          <span className="w-[25px] md:w-[40px] h-px bg-gold/50" />
+      <section className="relative overflow-hidden">
+        <Contours className="text-ink/[0.09]" />
+        <div className="relative max-w-[1320px] mx-auto px-5 md:px-12 pt-14 md:pt-20 pb-14 md:pb-20">
+          <div className="opacity-0 animate-fade-up" style={{ animationDelay: '0.3s' }}>
+            <Eyebrow>{tx.label}</Eyebrow>
+          </div>
+          <h1
+            className="font-display text-ink leading-[0.95] tracking-[-0.02em] mt-6 opacity-0 animate-fade-up"
+            style={{ fontSize: 'clamp(52px, 9vw, 120px)', animationDelay: '0.5s' }}
+          >
+            {tx.title}
+          </h1>
         </div>
-        <h1
-          className="font-[var(--font-cinzel)] font-normal text-champagne uppercase tracking-[0.08em] leading-[0.9] opacity-0 animate-fade-up"
-          style={{ fontSize: 'clamp(48px, 10vw, 110px)', animationDelay: '0.5s' }}
-        >
-          {tx.title}
-        </h1>
-      </div>
+      </section>
 
       {/* Content */}
-      <div className="relative z-10 max-w-[800px] mx-auto px-5 pb-20 md:px-20 md:pb-28">
-        <div className="h-px bg-gradient-to-r from-transparent via-gold/25 to-transparent mb-16" />
+      <div className="relative z-10 max-w-[1320px] mx-auto px-5 pb-20 md:px-12 md:pb-28">
+        <div className="h-px bg-ink/15 mb-14" />
 
-        <div className="space-y-12">
+        <div className="max-w-[760px] space-y-12">
           {tx.sections.map((section, i) => (
             <div key={i}>
-              <h2 className="font-[var(--font-cinzel)] text-[10px] tracking-[0.5em] text-gold/50 uppercase mb-5">
+              <h2 className="font-display text-[26px] md:text-[30px] leading-[1.15] text-ink mb-4">
                 {section.heading}
               </h2>
-              <div className="font-[var(--font-jost)] font-light text-[14px] text-champagne/50 leading-[1.9] space-y-3">
+              <div className="font-sans text-[16px] text-ink/75 leading-[1.85] space-y-3">
                 {section.lines.map((line, j) => (
                   <p key={j}>{line}</p>
                 ))}

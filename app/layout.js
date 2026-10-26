@@ -1,25 +1,18 @@
-import { Cinzel, Cormorant_Garamond, Jost } from 'next/font/google'
+import { Gloock, Jost } from 'next/font/google'
 import './globals.css'
 import { LanguageProvider } from './_components/LanguageProvider'
 import LoadingScreen from './_components/LoadingScreen'
 
-const cinzel = Cinzel({
+const display = Gloock({
   subsets: ['latin'],
-  weight: ['400', '600'],
-  variable: '--font-cinzel',
+  weight: '400',
+  variable: '--ff-display',
 })
 
-const cormorant = Cormorant_Garamond({
+const sans = Jost({
   subsets: ['latin'],
-  weight: ['300', '400', '600'],
-  style: ['normal', 'italic'],
-  variable: '--font-cormorant',
-})
-
-const jost = Jost({
-  subsets: ['latin'],
-  weight: ['200', '300', '400'],
-  variable: '--font-jost',
+  weight: ['300', '400', '500', '600'],
+  variable: '--ff-sans',
 })
 
 export const metadata = {
@@ -30,7 +23,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${cinzel.variable} ${cormorant.variable} ${jost.variable} font-[var(--font-jost)] antialiased`}>
+      <body className={`${display.variable} ${sans.variable} font-sans antialiased`}>
         <LanguageProvider>
           <LoadingScreen>{children}</LoadingScreen>
         </LanguageProvider>

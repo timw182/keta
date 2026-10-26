@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { useLang } from './LanguageProvider'
 import { t } from '../../lib/translations'
+import { Eyebrow } from './ui'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -47,43 +48,44 @@ function SlideContent({ card, idx, image, active, lg }) {
             sizes={lg ? '50vw' : '85vw'}
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/10" />
-        <div className="absolute inset-0 bg-burgundy/0 group-hover:bg-burgundy/10 transition-colors duration-700" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-sun/0 group-hover:bg-sun/10 transition-colors duration-700" />
       </div>
 
       {/* ─ Text ─ */}
       <div className={`${lg ? 'py-8' : 'py-1'} ${lg && !even ? 'order-1 text-right' : ''}`}>
-        <span className={`font-[var(--font-cinzel)] tracking-[0.5em] text-gold/35 inline-block ${lg ? 'text-[11px]' : 'text-[10px]'} ${v(200).cls}`} style={v(200).sty}>
+        <span className={`font-display text-sun inline-block leading-none ${lg ? 'text-[44px]' : 'text-[34px]'} ${v(200).cls}`} style={v(200).sty}>
           0{idx + 1}
         </span>
         <div
-          className={`h-px bg-gold/25 mt-4 mb-7 transition-all duration-[1.3s] ease-out ${active ? 'w-8' : 'w-0'} ${lg && !even ? 'ml-auto' : ''}`}
+          className={`h-px bg-cream/25 mt-5 mb-7 transition-all duration-[1.3s] ease-out ${active ? 'w-8' : 'w-0'} ${lg && !even ? 'ml-auto' : ''}`}
           style={{ transitionDelay: active ? '300ms' : '0ms' }}
         />
-        <span className={`font-[var(--font-cinzel)] tracking-[0.5em] text-gold/50 uppercase inline-block ${lg ? 'text-[9px]' : 'text-[8px]'} ${v(350).cls}`} style={v(350).sty}>
+        <span className={`notch-tag bg-lime text-ink font-sans font-semibold tracking-[0.12em] uppercase inline-block px-4 py-1.5 ${lg ? 'text-[12px]' : 'text-[11px]'} ${v(350).cls}`} style={v(350).sty}>
           {card.tag}
         </span>
         <h3
-          className={`font-[var(--font-cinzel)] text-champagne uppercase tracking-[0.06em] leading-[1.1] mt-3 mb-6 ${v(420).cls}`}
-          style={{ ...v(420).sty, fontSize: lg ? 'clamp(24px, 3.5vw, 48px)' : '22px' }}
+          className={`font-display text-cream tracking-[-0.01em] leading-[1.05] mt-5 mb-6 ${v(420).cls}`}
+          style={{ ...v(420).sty, fontSize: lg ? 'clamp(34px, 4vw, 60px)' : '30px' }}
         >
           {card.title}
         </h3>
-        <p className={`font-[var(--font-jost)] font-light leading-[1.9] text-champagne/40 max-w-md mb-4 ${lg ? 'text-[15px]' : 'text-[14px]'} ${lg && !even ? 'ml-auto' : ''} ${v(500).cls}`} style={v(500).sty}>
+        <p className={`font-sans leading-[1.9] text-cream/75 max-w-md mb-4 ${lg ? 'text-[15px]' : 'text-[14px]'} ${lg && !even ? 'ml-auto' : ''} ${v(500).cls}`} style={v(500).sty}>
           {card.desc}
         </p>
         {lg && (
-          <p className={`font-[var(--font-jost)] font-light text-[14px] leading-[1.85] text-champagne/22 max-w-md mb-10 ${!even ? 'ml-auto' : ''} ${v(580).cls}`} style={v(580).sty}>
+          <p className={`font-sans text-[15px] leading-[1.85] text-cream/50 max-w-md mb-10 ${!even ? 'ml-auto' : ''} ${v(580).cls}`} style={v(580).sty}>
             {card.extra}
           </p>
         )}
         <div className={`${!lg ? 'mt-6' : ''} ${v(lg ? 660 : 580).cls}`} style={v(lg ? 660 : 580).sty}>
           <a
             href="#contact"
-            className="group/link inline-flex items-center gap-4 font-[var(--font-cinzel)] text-[10px] tracking-[0.4em] text-gold/55 uppercase hover:text-gold transition-colors duration-300"
+            className="group/link inline-flex items-center gap-4 bg-sun text-ink font-sans font-semibold text-[13px] tracking-[0.06em] uppercase pl-6 pr-5 py-3.5 hover:bg-cream transition-colors duration-300"
           >
             {card.btn}
-            <span className="w-6 h-px bg-current group-hover/link:w-12 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]" />
+            <span className="w-px h-4 bg-current opacity-40" aria-hidden="true" />
+            <span aria-hidden="true" className="transition-transform duration-300 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5">↗</span>
           </a>
         </div>
       </div>
@@ -209,12 +211,8 @@ export default function ServiceCards() {
     <section
       ref={sectionRef}
       id="services"
-      className="relative bg-[#0f0c09]"
-      style={{ zIndex: 1 }}
+      className="relative bg-ink scroll-mt-20"
     >
-      {/* Top rule */}
-      <div className="absolute top-0 inset-x-5 md:inset-x-20 h-px bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
-
       {/* Panel — GSAP pins this on desktop */}
       <div
         ref={panelRef}
@@ -222,25 +220,23 @@ export default function ServiceCards() {
       >
 
         {/* ── Section header ──────────────────────── */}
-        <div ref={headerRef} className={`max-w-[1320px] mx-auto px-5 md:px-20 ${desktop ? 'pt-10 pb-4' : 'mb-12'}`}>
-          <div className={`flex items-center gap-3.5 mb-8 transition-all duration-[1s] ease-out ${headerVis ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-            <span className={`h-px bg-gold/50 transition-all duration-[1.4s] ease-out ${headerVis ? 'w-8' : 'w-0'}`} />
-            <span className="font-[var(--font-cinzel)] text-[9px] tracking-[0.5em] text-gold/60 uppercase">{tx.label}</span>
+        <div ref={headerRef} className={`w-full max-w-[1320px] mx-auto px-5 md:px-12 ${desktop ? 'pt-10 pb-4' : 'mb-12'}`}>
+          <div className={`mb-6 transition-all duration-[1s] ease-out ${headerVis ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+            <Eyebrow dark>{tx.label}</Eyebrow>
           </div>
 
           <div className="flex items-end justify-between">
             <h2
-              className={`font-[var(--font-cinzel)] text-champagne uppercase leading-[0.88] transition-all duration-[1.4s] ease-out ${headerVis ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
+              className={`font-display text-cream leading-[0.95] tracking-[-0.01em] transition-all duration-[1.4s] ease-out ${headerVis ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
               style={{
-                fontSize: desktop ? 'clamp(36px, 4.5vw, 72px)' : 'clamp(36px, 7vw, 100px)',
-                letterSpacing: '0.04em',
+                fontSize: desktop ? 'clamp(40px, 4.8vw, 76px)' : 'clamp(40px, 9vw, 100px)',
                 transitionDelay: headerVis ? '200ms' : '0ms',
               }}
             >
-              {tx.title1}
+              {tx.title1}{' '}
               <em
-                className={`block font-[var(--font-cormorant)] italic font-light text-gold not-italic leading-none transition-all duration-[1.4s] ease-out ${headerVis ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-                style={{ letterSpacing: '0.02em', transitionDelay: headerVis ? '350ms' : '0ms' }}
+                className={`inline font-display not-italic text-sun leading-none transition-all duration-[1.4s] ease-out ${headerVis ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+                style={{ transitionDelay: headerVis ? '350ms' : '0ms' }}
               >
                 {tx.title2}
               </em>
@@ -248,12 +244,12 @@ export default function ServiceCards() {
 
             {desktop && (
               <div
-                className={`font-[var(--font-cinzel)] tracking-[0.3em] transition-opacity duration-700 ${headerVis ? 'opacity-100' : 'opacity-0'}`}
+                className={`font-display transition-opacity duration-700 ${headerVis ? 'opacity-100' : 'opacity-0'}`}
                 style={{ transitionDelay: headerVis ? '600ms' : '0ms' }}
               >
-                <span className="text-gold/60 text-[20px] tabular-nums">0{Math.max(0, activeIdx) + 1}</span>
-                <span className="text-gold/12 mx-2 text-[14px]">/</span>
-                <span className="text-champagne/20 text-[13px]">0{N}</span>
+                <span className="text-sun text-[32px] tabular-nums">0{Math.max(0, activeIdx) + 1}</span>
+                <span className="text-cream/30 mx-2 text-[20px]">/</span>
+                <span className="text-cream/50 text-[20px]">0{N}</span>
               </div>
             )}
           </div>
@@ -309,13 +305,13 @@ export default function ServiceCards() {
                   })
                 }
               }}
-              className={`h-px transition-all duration-700 ${activeIdx === i ? 'w-10 bg-gold/60' : 'w-5 bg-gold/15 hover:bg-gold/25'}`}
+              className={`h-[3px] rounded-full transition-all duration-700 ${activeIdx === i ? 'w-10 bg-sun' : 'w-5 bg-cream/20 hover:bg-cream/40'}`}
             />
           ))}
           {!desktop && (
-            <span className="font-[var(--font-cinzel)] text-[10px] tracking-[0.3em] text-gold/30 ml-2">
+            <span className="font-display text-[15px] text-cream/60 ml-2">
               0{Math.max(0, activeIdx) + 1}
-              <span className="text-gold/10 mx-1">/</span>
+              <span className="text-cream/30 mx-1">/</span>
               0{N}
             </span>
           )}
@@ -324,9 +320,9 @@ export default function ServiceCards() {
         {/* ── Desktop: scrub line ─────────────────── */}
         {desktop && (
           <div className="absolute right-10 top-1/2 -translate-y-1/2 h-[35vh] pointer-events-none">
-            <div className="relative w-px h-full bg-gold/6">
-              <div ref={scrubFillRef} className="absolute top-0 w-px bg-gold/30" style={{ height: 0 }} />
-              <div ref={scrubDotRef} className="absolute left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-gold/50" style={{ top: 0 }} />
+            <div className="relative w-px h-full bg-cream/10">
+              <div ref={scrubFillRef} className="absolute top-0 w-px bg-sun" style={{ height: 0 }} />
+              <div ref={scrubDotRef} className="absolute left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-sun" style={{ top: 0 }} />
             </div>
           </div>
         )}

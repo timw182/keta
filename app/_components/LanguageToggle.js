@@ -7,28 +7,24 @@ const LANGS = ['EN', 'FR', 'LB']
 /**
  * Reusable language toggle.
  * Props:
- *   theme  'light' | 'dark'  — 'light' for champagne bg, 'dark' for burgundy bg
+ *   theme  'light' | 'dark'  — 'light' for cream backgrounds, 'dark' for ink backgrounds
  *   size   'sm' | 'md'       — text size
  */
-export default function LanguageToggle({ theme = 'dark', size = 'sm' }) {
+export default function LanguageToggle({ theme = 'light', size = 'sm' }) {
   const { lang, setLang } = useLang()
 
-  const activeColor   = '#d4aa7d'
-  const inactiveColor = theme === 'dark' ? 'rgba(247,242,232,0.30)' : 'rgba(107,20,40,0.35)'
-  const activeBorder  = theme === 'dark' ? 'rgba(184,148,106,0.65)' : 'var(--color-gold)'
-  const textSize      = size === 'md' ? 'text-[10px]' : 'text-[9px]'
+  const active   = theme === 'dark' ? 'bg-cream text-ink' : 'bg-ink text-cream'
+  const inactive = theme === 'dark' ? 'text-cream/50 hover:text-cream' : 'text-ink/50 hover:text-ink'
+  const textSize = size === 'md' ? 'text-[12px]' : 'text-[11px]'
 
   return (
-    <div className="flex items-center gap-0.5">
+    <div className="flex items-center gap-1">
       {LANGS.map(l => (
         <button
           key={l}
           onClick={() => setLang(l)}
-          className={`font-[var(--font-cinzel)] ${textSize} tracking-[0.25em] uppercase px-2 py-1 cursor-pointer transition-colors duration-200`}
-          style={{
-            color: lang === l ? activeColor : inactiveColor,
-            borderBottom: lang === l ? `1px solid ${activeBorder}` : '1px solid transparent',
-          }}
+          aria-pressed={lang === l}
+          className={`font-sans font-medium ${textSize} tracking-[0.12em] uppercase px-2 py-1 rounded-full cursor-pointer transition-colors duration-200 ${lang === l ? active : inactive}`}
         >
           {l}
         </button>
